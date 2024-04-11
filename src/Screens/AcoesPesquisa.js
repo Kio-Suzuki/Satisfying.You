@@ -21,17 +21,17 @@ const AcoesPesquisa = (props) => {
         <View style={estilos.view}>
             
             <TouchableOpacity style={estilos.botao} onPress={modificar}>
-                <Icon name='edit-square' size={120} color={'#FFFFFF'}/>
+                <Icon name='edit-square' size={160} color={'#FFFFFF'}/>
                 <Text style={estilos.texto}>Modificar</Text>
             </TouchableOpacity> 
 
             <TouchableOpacity style={estilos.botao} onPress={coletar}>
-                <Icon name='check-box' size={120} color={'#FFFFFF'}/>
+                <Icon name='check-box' size={160} color={'#FFFFFF'}/>
                 <Text style={estilos.texto}>Coletar dados</Text>
             </TouchableOpacity> 
 
             <TouchableOpacity style={estilos.botao} onPress={relatorio}>
-                <Icon name='donut-large' size={120} color={'#FFFFFF'}/>
+                <Icon name='donut-large' size={160} color={'#FFFFFF'}/>
                 <Text style={estilos.texto}>Relatório</Text>
             </TouchableOpacity>   
                
@@ -51,8 +51,8 @@ const estilos = StyleSheet.create({
 
     botao: {
         backgroundColor: '#312464', 
-        width: 271,
-        height: 238,
+        width: 310,
+        height: 260,
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 10  

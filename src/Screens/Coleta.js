@@ -26,27 +26,27 @@ const Coleta = (props) => {
 
             <View style={estilos.opcoes}>
                 <TouchableOpacity style={estilos.botao} onPress={goToAgradecimentos}>
-                    <Icon name='sentiment-very-dissatisfied' size={100} color='#D71616'/>
+                    <Icon name='sentiment-very-dissatisfied' size={120} color='#D71616'/>
                     <Text style={estilos.textBotao}>Pessímo</Text>
                 </TouchableOpacity>
                     
                 <TouchableOpacity style={estilos.botao} onPress={goToAgradecimentos}>
-                    <Icon name='sentiment-dissatisfied' size={100} color='#FF360A'/>
+                    <Icon name='sentiment-dissatisfied' size={120} color='#FF360A'/>
                     <Text style={estilos.textBotao}>Ruim</Text>  
                 </TouchableOpacity>
                     
                 <TouchableOpacity style={estilos.botao} onPress={goToAgradecimentos}>
-                    <Icon name='sentiment-neutral' size={100} color='#FFC632'/>
+                    <Icon name='sentiment-neutral' size={120} color='#FFC632'/>
                     <Text style={estilos.textBotao}>Neutro</Text>  
                 </TouchableOpacity>
                     
                 <TouchableOpacity style={estilos.botao} onPress={goToAgradecimentos}>
-                    <Icon name='sentiment-satisfied' size={100} color='#37BD6D'/>
+                    <Icon name='sentiment-satisfied' size={120} color='#37BD6D'/>
                     <Text style={estilos.textBotao}>Bom</Text>   
                 </TouchableOpacity>
 
                 <TouchableOpacity style={estilos.botao} onPress={goToAgradecimentos}>
-                    <Icon name='mood' size={100} color='#25BC22'/>
+                    <Icon name='mood' size={120} color='#25BC22'/>
                     <Text style={estilos.textBotao}>Excelente</Text>
                 </TouchableOpacity>
             </View>
@@ -68,12 +68,11 @@ const estilos = StyleSheet.create({
     titulo: {
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 10
     },
 
     texto: {
         fontFamily: 'AveriaLibre-Regular',
-        fontSize: 48,
+        fontSize: 52,
         color: '#FFFFFF',
     },
 
@@ -85,7 +84,7 @@ const estilos = StyleSheet.create({
 
     textBotao: {
         fontFamily: 'AveriaLibre-Regular',
-        fontSize: 36,
+        fontSize: 38,
         color: '#FFFFFF'   
     },
 

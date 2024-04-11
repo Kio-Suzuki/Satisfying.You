@@ -44,8 +44,9 @@ const estilos = StyleSheet.create({
     view: {
         backgroundColor: '#372775',
         flex: 1,
+        paddingHorizontal: 180,
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
 
@@ -63,7 +64,7 @@ const estilos = StyleSheet.create({
 
     legenda: {
         flexDirection: 'row',
-        paddingTop: 10
+        paddingTop: 15
     }
 })
 

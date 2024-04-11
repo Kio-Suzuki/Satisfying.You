@@ -1,8 +1,7 @@
 import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Button } from 'react-native'
 import { useState } from 'react'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
-import Botao4 from '../components/Botao4'
-
 
 const Modificar = (props) => {
 
@@ -24,7 +23,10 @@ const Modificar = (props) => {
             <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa}/>
 
             <Text style={estilos.texto}>Imagem</Text>
-            <Botao4 texto='Câmera/Galeria de imagens' funcao={acoes}/>
+            <TouchableOpacity style={estilos.bimagem} onPress={acoes}>
+                <Icon name='celebration' size={80} color={'#C60EB3'}/>
+            </TouchableOpacity>
+
         </View>
 
         <View style={estilos.cBotao1}>
@@ -79,7 +81,15 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20
-  }
+  },
+  bimagem: {
+    backgroundColor: '#FFFFFF',
+    height: 94,
+    width: 335,
+    marginTop: 10,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
 })
 
 export default Modificar

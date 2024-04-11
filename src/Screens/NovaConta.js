@@ -63,7 +63,7 @@ const estilos = StyleSheet.create({
     },
   
     cBotao1: {
-      marginTop: 20
+      marginTop: 60
     },
   
     cBotao2: {
