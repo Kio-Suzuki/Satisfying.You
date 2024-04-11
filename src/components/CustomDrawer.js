@@ -13,7 +13,7 @@ const CustomDrawer = (props) => {
 
                 <DrawerItemList {...props} />
 
-            <View>
+            <View style={{ paddingTop: 340 }}>
                 <DrawerItem 
                 labelStyle={{fontSize: 28, color: '#FFFFFF', fontFamily: 'AveriaLibre-Regular'}} 
                 label='Sair' onPress={() => {props.navigation.popToTop()}} 
