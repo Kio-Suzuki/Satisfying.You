@@ -3,6 +3,7 @@ import { Input } from 'react-native-elements'
 import { useState } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
+import Card from '../components/Card'
 
 const Home = (props) => {
 
@@ -15,6 +16,10 @@ const Home = (props) => {
   const acoesPesquisa = () => {
     props.navigation.navigate('AcoesPesquisa')
   }
+
+  const secompImage = require('../../assets/images/devices.png');
+  const ubuntuImage = require('../../assets/images/groups.png')
+  const meninasImage = require('../../assets/images/woman.png');
   
   return (
     <View style={estilos.view}>
@@ -23,7 +28,14 @@ const Home = (props) => {
             <TextInput style={estilos.textInput} value={txtPesquisa} onChangeText={setPesquisa} inlineImageLeft='search' inlineImagePadding={5} placeholder='Insira o termo de busca...'/>
         </View>
 
-        <View style={estilos.pesquisa}>
+        <View style={estilos.cards}>
+            <Card imageSource={secompImage} titulo='SECOMP 2023' data='10/10/2023' funcao={acoesPesquisa}/>
+            <Card imageSource={ubuntuImage} titulo='UBUNTU 2022' data='05/06/2022' funcao={acoesPesquisa}/>
+            <Card imageSource={meninasImage} titulo='MENINAS CPU' data='01/04/2022' funcao={acoesPesquisa}/>
+
+        </View>
+
+        {/* <View style={estilos.pesquisa}>
             
             <TouchableOpacity style={estilos.botao} onPress={acoesPesquisa}>
                 <Icon name='devices' size={150} color={'#704141'}/>
@@ -43,7 +55,7 @@ const Home = (props) => {
                 <Text style={estilos.textoData}>01/04/2022</Text>
             </TouchableOpacity>   
                
-        </View>    
+        </View>     */}
 
         <View style={estilos.cBotao1}>
             <Botao texto='NOVA PESQUISA' funcao={novaPesquisa}/>
@@ -61,25 +73,13 @@ const estilos = StyleSheet.create({
     padding: 30
   },
 
-  pesquisa:{
+  cards:{
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
     paddingTop: 40
-  },
-
-  texto: {
-    fontFamily: 'AveriaLibre-Regular',
-    fontSize: 28,
-    color: '#3F92C5',
-  },
-
-  textoData: {
-    fontFamily: 'AveriaLibre-Regular',
-    fontSize: 20,
-    color: '#8B8B8B',
   },
 
   botao: {
