@@ -8,7 +8,7 @@ const Card = (props) => {
 
     return (
         <TouchableOpacity style={estilo.card} onPress={props.funcao}>
-            <Image source={imagemSource}/>
+            <Image source={imagemSource} style={[estilo.image, props.imageStyle]}/>
             <Text style={estilo.titutoCard}>{titulo}</Text>
             <Text style={estilo.dataCard}>{data}</Text>
         </TouchableOpacity>
@@ -36,7 +36,12 @@ const estilo = StyleSheet.create({
         fontFamily: 'AveriaLibre-Regular',
         fontSize: 20,
         color: '#8B8B8B',
-    }
+    },
+
+    image: {
+        width: 150,
+        height: 150,
+    },
 })
 
 export default Card

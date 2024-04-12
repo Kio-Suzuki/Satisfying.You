@@ -29,7 +29,7 @@ const Home = (props) => {
         </View>
 
         <View style={estilos.cards}>
-            <Card imageSource={secompImage} titulo='SECOMP 2023' data='10/10/2023' funcao={acoesPesquisa}/>
+            <Card imageSource={secompImage} imageStyle={{  }} titulo='SECOMP 2023' data='10/10/2023' funcao={acoesPesquisa}/>
             <Card imageSource={ubuntuImage} titulo='UBUNTU 2022' data='05/06/2022' funcao={acoesPesquisa}/>
             <Card imageSource={meninasImage} titulo='MENINAS CPU' data='01/04/2022' funcao={acoesPesquisa}/>
 
@@ -103,7 +103,8 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10
-  }
+  },
+
 })
 
 export default Home
