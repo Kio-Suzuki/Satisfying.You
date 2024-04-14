@@ -2,34 +2,37 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Button } fr
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import Botao4 from '../components/Botao4'
-
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const NovaPesquisa = (props) => {
 
   const [txtNomePesquisa, setNomePesquisa] = useState('')
   const [txtDataPesquisa, setDataPesquisa] = useState('')
-
   const entrarHome = () => {
-    props.navigation.navigate('Drawer')
+    var validar = txtNomePesquisa && txtDataPesquisa
+    if (validar) {
+      props.navigation.navigate('Drawer')
+    }
   }
 
   return (
     <View style={estilos.view}>
 
-        <View>
-            <Text style={estilos.texto}>Nome</Text>
-            <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa}/>
+      <View>
+        <Text style={estilos.texto}>Nome</Text>
+        <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
 
-            <Text style={estilos.texto}>Data</Text>
-            <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa}/>
+        <Text style={estilos.texto}>Data</Text>
+        <Icon name="calendar-month" sizex/>
+        <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
 
-            <Text style={estilos.texto}>Imagem</Text>
-            <Botao4 texto='Câmera/Galeria de imagens' funcao={entrarHome}/>
-        </View>
+        <Text style={estilos.texto}>Imagem</Text>
+        <Botao4 texto="Câmera/Galeria de imagens" funcao={entrarHome} />
+      </View>
 
-        <View style={estilos.cBotao1}>
-            <Botao texto='CADASTRAR' funcao={entrarHome}/>
-        </View>
+      <View style={estilos.cBotao1}>
+        <Botao texto="CADASTRAR" funcao={entrarHome} />
+      </View>
 
     </View>
   )
@@ -40,7 +43,7 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203
+    paddingHorizontal: 203,
   },
 
   cTitulo: {
@@ -59,8 +62,7 @@ const estilos = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
-    marginTop: 25
-
+    marginTop: 2
   },
 
   cBotao1: {
