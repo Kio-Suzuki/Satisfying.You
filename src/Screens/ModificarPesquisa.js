@@ -10,9 +10,8 @@ const Modificar = (props) => {
   const [txtDataPesquisa, setDataPesquisa] = useState('')
 
   const acoes = () => {
-    props.navigation.navigate('AcoesPesquisa')
+    props.navigation.navigate('Drawer')
   }
-
 
   return (
     <View style={estilos.view}>

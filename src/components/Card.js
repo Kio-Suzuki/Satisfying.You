@@ -1,29 +1,29 @@
-import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
+import React from 'react';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
+import  Icon  from 'react-native-vector-icons/MaterialIcons';
 
 const Card = (props) => {
-
-    const imagemSource = props.imageSource
-    const titulo = props.titulo
-    const data = props.data
+    const iconName = props.iconName;
+    const titulo = props.titulo;
+    const data = props.data;
 
     return (
         <TouchableOpacity style={estilo.card} onPress={props.funcao}>
-            <Image source={imagemSource} style={[estilo.image, props.imageStyle]}/>
+            <Icon name={iconName} style={estilo.icon} />
             <Text style={estilo.titutoCard}>{titulo}</Text>
             <Text style={estilo.dataCard}>{data}</Text>
         </TouchableOpacity>
-    )
-}
+    );
+};
 
 const estilo = StyleSheet.create({
-
     card: {
         backgroundColor: '#FFFFFF',
-        borderRadius: 10, 
+        borderRadius: 10,
         width: 310,
         height: 260,
         justifyContent: 'center',
-        alignItems: 'center'  
+        alignItems: 'center',
     },
 
     titutoCard: {
@@ -38,10 +38,11 @@ const estilo = StyleSheet.create({
         color: '#8B8B8B',
     },
 
-    image: {
-        width: 150,
-        height: 150,
-    },
-})
+    icon: {
+        fontSize: 50,
+        color: 'black',
+    }
 
-export default Card
+});
+
+export default Card;

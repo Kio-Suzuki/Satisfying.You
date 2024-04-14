@@ -3,8 +3,6 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const AcoesPesquisa = (props) => {
 
-    
-
     const modificar = () => {
         props.navigation.navigate('ModificarPesquisa')
     }

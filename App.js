@@ -23,7 +23,7 @@ const App = () => {
         <Stack.Screen name='Drawer' component={Drawer} options={{ headerShown: false }}/>
         <Stack.Screen name='NovaPesquisa' component={NovaPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Nova Pesquisa', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
         <Stack.Screen name='AcoesPesquisa' component={AcoesPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name='ModificarPesquisa' component={ModificarPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+        <Stack.Screen name='ModificarPesquisa' component={ModificarPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Modificar Pesquisa', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
         <Stack.Screen name='Coleta' component={Coleta} options={{ headerShown: false }}/>
         <Stack.Screen name='Relatorio' component={Relatorio} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Relatório', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
         <Stack.Screen name='Agradecimento' component={Agradecimento} options={{ headerShown: false }}/>
