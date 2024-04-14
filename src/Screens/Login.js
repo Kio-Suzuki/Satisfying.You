@@ -1,12 +1,5 @@
 import {useState} from 'react';
-import {
-  Image,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, View, } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import validator from 'validator';
 import Botao from '../components/Botao';
@@ -99,7 +92,7 @@ const estilos = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
-    marginTop: 25,
+    marginTop: 20,
   },
   erro:{
     fontFamily: 'AveriaLibre-Regular',
@@ -108,11 +101,17 @@ const estilos = StyleSheet.create({
     marginTop: 5,
   },
   cBotao1: {
-    marginTop: 15,
+    position: 'absolute',
+    marginTop: 400,
+    width: 807,
+    marginHorizontal: 203
   },
 
   cBotao2: {
-    marginTop: 20,
+    position: 'absolute',
+    marginTop: 490,
+    width: 807,
+    marginHorizontal: 203
   },
 
   textInput: {
