@@ -40,7 +40,7 @@ const NovaConta = (props) => {
         {showError === 3 ? <Text style={estilos.erro}>E-mail parece ser inválido e/ou o campo repetir senha difere da senha.</Text> : null}
       </View>
 
-      <View style={estilos.cBotao1}>
+      <View style={estilos.cBotao}>
         <Botao texto="CADASTRAR" funcao={login} />
       </View>
 
@@ -62,6 +62,7 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     height: 130
   },
+  
   titulo: {
     fontSize: 64,
     color: '#FFFFFF',
@@ -81,12 +82,11 @@ const estilos = StyleSheet.create({
     color: '#FD7979',
     marginTop: 5
   },
-  cBotao1: {
-    marginTop: 60
-  },
-
-  cBotao2: {
-    marginTop: 30
+  cBotao: {
+    position: 'absolute',
+    marginTop: 420,
+    width: 807,
+    marginHorizontal: 203
   },
 
   textInput: {

@@ -2,36 +2,55 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Button } fr
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import Botao4 from '../components/Botao4'
+import validator from 'validator'
+import { format } from 'date-fns'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const NovaPesquisa = (props) => {
 
+  const [showError, setShowError] = useState(0);
+
   const [txtNomePesquisa, setNomePesquisa] = useState('')
   const [txtDataPesquisa, setDataPesquisa] = useState('')
-  const entrarHome = () => {
-    var validar = txtNomePesquisa && txtDataPesquisa
-    if (validar) {
+
+  const novaPesquisa = () => {
+    var validaNomePesquisa = !validator.isEmpty(txtNomePesquisa)
+    var validaDataPesquisa = !validator.isDate(txtDataPesquisa)
+    if (validaNomePesquisa && validaDataPesquisa) {
       props.navigation.navigate('Drawer')
+    } else if (validaNomePesquisa === false && validaDataPesquisa === true) {
+      setShowError(1)
+    } else if (validaNomePesquisa === true && validaDataPesquisa === false) {
+      setShowError(2)
+    } else if (validaNomePesquisa === false && validaDataPesquisa === false) {
+      setShowError(3)
     }
   }
 
   return (
     <View style={estilos.view}>
 
-      <View>
+      <View style={estilos.cNome}>
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
+        {showError === 1 ? <Text style={estilos.erro}>Preencha o nome da pesquisa</Text> : null}
+        {showError === 3 ? <Text style={estilos.erro}>Preencha o nome da pesquisa</Text> : null}
+      </View>
 
+      <View style={estilos.cData}>
         <Text style={estilos.texto}>Data</Text>
-        <Icon name="calendar-month" sizex/>
         <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
-
-        <Text style={estilos.texto}>Imagem</Text>
-        <Botao4 texto="Câmera/Galeria de imagens" funcao={entrarHome} />
+        {showError === 1 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
+        {showError === 3 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
       </View>
 
       <View style={estilos.cBotao1}>
-        <Botao texto="CADASTRAR" funcao={entrarHome} />
+        <Text style={estilos.texto}>Imagem</Text>
+        <Botao4 texto="Câmera/Galeria de imagens" funcao={novaPesquisa} />
+      </View>
+
+      <View style={estilos.cBotao2}>
+        <Botao texto="CADASTRAR" funcao={novaPesquisa} />
       </View>
 
     </View>
@@ -52,6 +71,7 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     height: 130
   },
+
   titulo: {
     fontSize: 64,
     color: '#FFFFFF',
@@ -65,12 +85,39 @@ const estilos = StyleSheet.create({
     marginTop: 2
   },
 
+  erro:{
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: 18,
+    color: '#FD7979',
+    marginTop: 5,
+  },
+
+  cNome: {
+    position: 'absolute',
+    marginTop: 20,
+    width: 807,
+    marginHorizontal: 203
+  },
+
+  cData: {
+    position: 'absolute',
+    marginTop: 150,
+    width: 807,
+    marginHorizontal: 203
+  },
+
   cBotao1: {
-    marginTop: 20
+    position: 'absolute',
+    marginTop: 270,
+    width: 807,
+    marginHorizontal: 203
   },
 
   cBotao2: {
-    marginTop: 30
+    position: 'absolute',
+    marginTop: 440,
+    width: 807,
+    marginHorizontal: 203
   },
 
   textInput: {

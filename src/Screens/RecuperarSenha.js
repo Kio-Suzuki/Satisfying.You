@@ -25,7 +25,7 @@ const RecuperarSenha = (props) => {
         {showError ? <Text style={estilos.erro}>E-mail parece ser inválido</Text> : null}
       </View>
 
-      <View style={estilos.cBotao1}>
+      <View style={estilos.cBotao}>
         <Botao texto="RECUPERAR" funcao={login} />
       </View>
 
@@ -38,8 +38,8 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
-    paddingHorizontal: 203,
+    paddingTop: 150,
+    paddingHorizontal: 203
   },
 
   texto: {
@@ -63,9 +63,13 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  cBotao1: {
-    marginTop:100
-  }
+  cBotao: {
+    position: 'absolute',
+    marginTop: 320,
+    width: 807,
+    marginHorizontal: 203
+  },
+
 })
 
 export default RecuperarSenha
