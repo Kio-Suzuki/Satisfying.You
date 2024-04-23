@@ -30,29 +30,7 @@ const Home = (props) => {
         <Card imageSource="groups" colore="#383838" titulo="UBUNTU 2022" data="05/06/2022" funcao={acoesPesquisa}/>
         <Card imageSource="woman" colore="#D71616" titulo="MENINAS CPU" data="01/04/2022" funcao={acoesPesquisa}/>
       </View>
-
-      {/* <View style={estilos.pesquisa}>
-
-            <TouchableOpacity style={estilos.botao} onPress={acoesPesquisa}>
-                <Icon name='devices' size={150} color={'#704141'}/>
-                <Text style={estilos.texto}>SECOMP 2023</Text>
-                <Text style={estilos.textoData}>10/10/2023</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={estilos.botao} onPress={acoesPesquisa}>
-                <Icon name='groups' size={150} color={'#383838'}/>
-                <Text style={estilos.texto}>UBUNTU 2022</Text>
-                <Text style={estilos.textoData}>05/06/2022</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={estilos.botao} onPress={acoesPesquisa}>
-                <Icon name='woman' size={150} color={'#D71616'}/>
-                <Text style={estilos.texto}>MENINAS CPU</Text>
-                <Text style={estilos.textoData}>01/04/2022</Text>
-            </TouchableOpacity>
-
-        </View>     */}
-
+      
       <View style={estilos.cBotao1}>
         <Botao texto='NOVA PESQUISA' funcao={novaPesquisa}/>
       </View>
