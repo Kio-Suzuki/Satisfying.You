@@ -1,10 +1,7 @@
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet } from 'react-native'
-import { Input } from 'react-native-elements'
+import { View, TextInput, StyleSheet } from 'react-native'
 import { useState } from 'react'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
 import Card from '../components/Card'
-import Icons from 'react-native-vector-icons/MaterialIcons'
 
 const Home = (props) => {
 

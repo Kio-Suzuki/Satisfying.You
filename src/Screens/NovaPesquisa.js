@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import Botao4 from '../components/Botao4'

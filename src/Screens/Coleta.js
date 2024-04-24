@@ -102,7 +102,6 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     top: -180,
     right: -90,
-
   }
 })
 
