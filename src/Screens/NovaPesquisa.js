@@ -2,20 +2,24 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, Button } fr
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import Botao4 from '../components/Botao4'
+
 import validator from 'validator'
-import { format } from 'date-fns'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const NovaPesquisa = (props) => {
 
   const [showError, setShowError] = useState(0);
-
+  
   const [txtNomePesquisa, setNomePesquisa] = useState('')
   const [txtDataPesquisa, setDataPesquisa] = useState('')
 
+  const regData = /^\d{2}\/\d{2}\/\d{4}$/;
+
+
+
   const novaPesquisa = () => {
     var validaNomePesquisa = !validator.isEmpty(txtNomePesquisa)
-    var validaDataPesquisa = !validator.isDate(txtDataPesquisa)
+    var validaDataPesquisa = regData.test(txtDataPesquisa)
     if (validaNomePesquisa && validaDataPesquisa) {
       props.navigation.navigate('Drawer')
     } else if (validaNomePesquisa === false && validaDataPesquisa === true) {
@@ -40,7 +44,7 @@ const NovaPesquisa = (props) => {
       <View style={estilos.cData}>
         <Text style={estilos.texto}>Data</Text>
         <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
-        {showError === 1 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
+        {showError === 2 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
         {showError === 3 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
       </View>
 
@@ -64,62 +68,53 @@ const estilos = StyleSheet.create({
     flexDirection: 'column',
     paddingHorizontal: 203,
   },
-
   cTitulo: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: 130
   },
-
   titulo: {
     fontSize: 64,
     color: '#FFFFFF',
     fontFamily: 'AveriaLibre-Regular'
   },
-
   texto: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
     marginTop: 2
   },
-
   erro:{
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 18,
     color: '#FD7979',
     marginTop: 5,
   },
-
   cNome: {
     position: 'absolute',
     marginTop: 20,
     width: 807,
     marginHorizontal: 203
   },
-
   cData: {
     position: 'absolute',
     marginTop: 150,
     width: 807,
     marginHorizontal: 203
   },
-
   cBotao1: {
     position: 'absolute',
     marginTop: 270,
     width: 807,
     marginHorizontal: 203
   },
-
   cBotao2: {
     position: 'absolute',
     marginTop: 440,
     width: 807,
     marginHorizontal: 203
   },
-
   textInput: {
     fontSize: 28,
     fontFamily: 'AveriaLibre-Regular',

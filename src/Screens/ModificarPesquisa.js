@@ -1,7 +1,10 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Modal } from 'react-native'
+
 import { useState } from 'react'
+
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
+
 import Popup from '../components/Popup'
 
 const Modificar = (props) => {
@@ -45,11 +48,7 @@ const Modificar = (props) => {
         </TouchableOpacity>
       </View>
 
-      {isPopupVisible && <Popup // Render popup conditionally based on visibility
-        title="Confirmar Exclusão"
-        text="Deseja realmente excluir essa pesquisa?"
-        onClose={() => setIsPopupVisible(false)} // Set visibility back to false on close
-      />}
+      { isPopupVisible && <Popup title="Confirmar Exclusão" text="Deseja realmente excluir essa pesquisa?" onClose={() => setIsPopupVisible(false)} /> }
     </View>
   )
 }
