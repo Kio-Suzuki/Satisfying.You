@@ -28,8 +28,11 @@ const Modificar = (props) => {
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa}/>
 
-        <Text style={estilos.texto}>Data</Text>
-        <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa}/>
+        <Text style={estilos.texto}>Data</Text>        
+        <View>
+          <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
+          <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+        </View>
 
         <Text style={estilos.texto}>Imagem</Text>
         <TouchableOpacity style={estilos.botaoImagem} onPress={acoes}>
@@ -110,6 +113,11 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     paddingHorizontal: 20
+  },
+  calendario:{
+    position: 'absolute',
+    zIndex: 9999,
+    alignSelf: 'flex-end'
   }
 })
 

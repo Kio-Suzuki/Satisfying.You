@@ -5,6 +5,7 @@ import Botao4 from '../components/Botao4'
 
 import validator from 'validator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { color } from 'react-native-elements/dist/helpers'
 
 const NovaPesquisa = (props) => {
 
@@ -43,7 +44,10 @@ const NovaPesquisa = (props) => {
 
       <View style={estilos.cData}>
         <Text style={estilos.texto}>Data</Text>
-        <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+        <View>
+          <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
+          <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+        </View>
         {showError === 2 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
         {showError === 3 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
       </View>
@@ -123,6 +127,11 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 20
+  },
+  calendario:{
+    position: 'absolute',
+    zIndex: 9999,
+    alignSelf: 'flex-end'
   }
 })
 
