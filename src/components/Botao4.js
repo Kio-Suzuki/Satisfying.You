@@ -1,6 +1,6 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
 
-const Botao3 = (props) => {
+const Botao4 = (props) => {
 
   const texto = props.texto
 
@@ -29,4 +29,4 @@ const estilo = StyleSheet.create({
   },
 })
 
-export default Botao3
+export default Botao4

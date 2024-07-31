@@ -1,11 +1,17 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Image, Alert, Platform, ActionSheetIOS } from 'react-native'
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import Botao4 from '../components/Botao4'
 
+
 import validator from 'validator'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { color } from 'react-native-elements/dist/helpers'
+
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+
+
+
 
 const NovaPesquisa = (props) => {
 
@@ -13,9 +19,62 @@ const NovaPesquisa = (props) => {
   
   const [txtNomePesquisa, setNomePesquisa] = useState('')
   const [txtDataPesquisa, setDataPesquisa] = useState('')
+  const [urlFoto, setUrlFoto] = useState('')
+  const [foto, setFoto] = useState()
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
 
+
+  const buscaImagem = () => {
+    if (Platform.OS === 'ios') {
+      ActionSheetIOS.showActionSheetWithOptions(
+        {
+          options: ['Cancelar', 'Câmera', 'Galeria'],
+          cancelButtonIndex: 0,
+        },
+        (buttonIndex) => {
+          if (buttonIndex === 1) {
+            abrirCamera();
+          } else if (buttonIndex === 2) {
+            abrirGaleria();
+          }
+        }
+      );
+    } else {
+      Alert.alert(
+        'Selecionar Imagem',
+        'Escolha uma opção',
+        [
+          { text: 'Câmera', onPress: abrirCamera },
+          { text: 'Galeria', onPress: abrirGaleria },
+          { text: 'Cancelar', style: 'cancel' }
+        ],
+        { cancelable: true }
+      );
+    }
+  };
+  
+  const abrirCamera = () => {
+    launchCamera({ mediaType: 'photo', cameraType: 'front', quality: 0.5 }).then((result) => {
+      if (result.assets) {
+        setUrlFoto(result.assets[0].uri);
+        setFoto(result.assets[0]);
+      }
+    }).catch((error) => {
+      console.log("Erro:" + JSON.stringify(error));
+    });
+  };
+  
+  const abrirGaleria = () => {
+    launchImageLibrary({ mediaType: 'photo', quality: 0.5 }).then((result) => {
+      if (result.assets) {
+        setUrlFoto(result.assets[0].uri);
+        setFoto(result.assets[0]);
+      }
+    }).catch((error) => {
+      console.log("Erro:" + JSON.stringify(error));
+    });
+  };
 
 
   const novaPesquisa = () => {
@@ -54,13 +113,15 @@ const NovaPesquisa = (props) => {
 
       <View style={estilos.cBotao1}>
         <Text style={estilos.texto}>Imagem</Text>
-        <Botao4 texto="Câmera/Galeria de imagens" funcao={novaPesquisa} />
+        {urlFoto ?
+          <Image source = {{uri: urlFoto}} style={{height: 'auto', width: '100%', position: 'absolute'}}/> : null
+        }
+        <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
       </View>
 
       <View style={estilos.cBotao2}>
         <Botao texto="CADASTRAR" funcao={novaPesquisa} />
       </View>
-
     </View>
   )
 }
