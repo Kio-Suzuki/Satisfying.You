@@ -1,40 +1,73 @@
-import { View, TextInput, StyleSheet } from 'react-native'
-import { useState } from 'react'
-import Botao from '../components/Botao'
-import Card from '../components/Card'
+import { View, TextInput, StyleSheet, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
+import Botao from '../components/Botao';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text } from 'react-native-elements';
+import { pesquisasCollection } from './firestoeConfig';
+import { query, onSnapshot } from 'firebase/firestore';
 
 const Home = (props) => {
+  const [ListaPesquisas, setListaPesquisas] = useState([]);
 
-  const [txtPesquisa, setPesquisa] = useState('')
+  useEffect(() => {
+    const q = query(pesquisasCollection);
+
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const pesquisas = [];
+      snapshot.forEach((pes) => {
+        pesquisas.push({
+          id: pes.id,
+          ...pes.data()
+        });
+      });
+
+      setListaPesquisas(pesquisas);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const itemPesquisa = ({ item }) => {
+    return (
+      <TouchableOpacity onPress={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}>
+        <Text>Id: {item.id} Data: {item.data} Nome: {item.nome}</Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const [txtPesquisa, setPesquisa] = useState('');
 
   const novaPesquisa = () => {
-    props.navigation.navigate('NovaPesquisa')
-  }
-
-  const acoesPesquisa = () => {
-    props.navigation.navigate('AcoesPesquisa')
-  }
+    props.navigation.navigate('NovaPesquisa');
+  };
 
   return (
     <View style={estilos.view}>
-
       <View>
-        <TextInput style={estilos.textInput} value={txtPesquisa} onChangeText={setPesquisa} inlineImageLeft="search" inlineImagePadding={5} placeholder="Insira o termo de busca..."/>
+        <TextInput
+          style={estilos.textInput}
+          value={txtPesquisa}
+          onChangeText={setPesquisa}
+          inlineImageLeft="search"
+          inlineImagePadding={5}
+          placeholder="Insira o termo de busca..."
+        />
       </View>
 
       <View style={estilos.cards}>
-        <Card imageSource="devices" colore="#704141" titulo="SECOMP 2023" data="10/10/2023" funcao={acoesPesquisa}/>
-        <Card imageSource="groups" colore="#383838" titulo="UBUNTU 2022" data="05/06/2022" funcao={acoesPesquisa}/>
-        <Card imageSource="woman" colore="#D71616" titulo="MENINAS CPU" data="01/04/2022" funcao={acoesPesquisa}/>
-      </View>
-      
-      <View style={estilos.cBotao1}>
-        <Botao texto='NOVA PESQUISA' funcao={novaPesquisa}/>
+        <FlatList
+          data={ListaPesquisas}
+          renderItem={itemPesquisa}
+          keyExtractor={(pesquisas) => pesquisas.id}
+        />
       </View>
 
+      <View style={estilos.cBotao1}>
+        <Botao texto='NOVA PESQUISA' funcao={novaPesquisa} />
+      </View>
     </View>
-  )
-}
+  );
+};
 
 const estilos = StyleSheet.create({
   view: {
@@ -44,7 +77,7 @@ const estilos = StyleSheet.create({
     padding: 30
   },
 
-  cards:{
+  cards: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'row',
@@ -74,8 +107,7 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10
-  },
+  }
+});
 
-})
-
-export default Home
+export default Home;

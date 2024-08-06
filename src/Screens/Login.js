@@ -1,11 +1,51 @@
 import {useState} from 'react';
-import { StyleSheet, Text, TextInput, View, } from 'react-native';
+import { StyleSheet, Text, TextInput, View, Button } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import validator from 'validator';
 import Botao from '../components/Botao';
 import Botao2 from '../components/Botao2';
 import Botao3 from '../components/Botao3';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth_mod } from '../firebase/config';
 
+const Login = props => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const novaConta = () => {
+    props.navigation.navigate('NovaConta');
+  };
+
+  const recuperarConta = email => {
+    if (email) {
+      props.navigation.navigate('RecuperarConta');
+    }
+  };
+
+  const authenticator = () => {
+    signInWithEmailAndPassword(auth_mod, email, password).then((userLogged) => {
+      console.log("Usuário autenticado com sucesso!");
+      props.navigation.navigate('Drawer');
+    }).catch((erro) => {
+      console.log("Houve um erro ao tentar autenticar o usuário!");
+    })
+
+  }
+  return (
+    <View>  
+      <Text>E-mail</Text>
+      <TextInput value={email} onChangeText={setEmail}/>
+      <Text>Password</Text>
+      <TextInput keyboardType='default' value={password} onChangeText={setPassword}/>
+      <Button title='Entrar' onPress={authenticator}></Button>
+      <Button title='Cadastrar' onPress={novaConta}></Button>
+      <Button title='Recuperar senha' onPress={recuperarConta}></Button>
+    </View>
+  )
+
+}
+
+/*
 const Login = props => {
   const [txtEmail, setEmail] = useState('');
   const [txtSenha, setSenha] = useState('');
@@ -67,6 +107,7 @@ const Login = props => {
     </View>
   );
 };
+*/
 
 const estilos = StyleSheet.create({
   view: {

@@ -1,29 +1,22 @@
-import { View, Text, TextInput, StyleSheet, Image, Alert, Platform, ActionSheetIOS } from 'react-native'
-import { useState } from 'react'
-import Botao from '../components/Botao'
-import Botao4 from '../components/Botao4'
-
-
-import validator from 'validator'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { color } from 'react-native-elements/dist/helpers'
-
-import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
-
-
-
+// NovaPesquisa.js
+import React, { useState } from 'react';
+import { View, Text, TextInput, StyleSheet, Image, Alert, Platform, ActionSheetIOS } from 'react-native';
+import Botao4 from '../components/Botao4';
+import validator from 'validator';
+import { Button } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
+import { addDoc } from 'firebase/firestore'
+import { pesquisasCollection } from './firestoeConfig';
 
 const NovaPesquisa = (props) => {
-
   const [showError, setShowError] = useState(0);
-  
-  const [txtNomePesquisa, setNomePesquisa] = useState('')
-  const [txtDataPesquisa, setDataPesquisa] = useState('')
-  const [urlFoto, setUrlFoto] = useState('')
-  const [foto, setFoto] = useState()
+  const [txtNomePesquisa, setNomePesquisa] = useState('');
+  const [txtDataPesquisa, setDataPesquisa] = useState('');
+  const [urlFoto, setUrlFoto] = useState('');
+  const [foto, setFoto] = useState();
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
-
 
   const buscaImagem = () => {
     if (Platform.OS === 'ios') {
@@ -53,7 +46,7 @@ const NovaPesquisa = (props) => {
       );
     }
   };
-  
+
   const abrirCamera = () => {
     launchCamera({ mediaType: 'photo', cameraType: 'front', quality: 0.5 }).then((result) => {
       if (result.assets) {
@@ -61,10 +54,10 @@ const NovaPesquisa = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log("Erro:" + JSON.stringify(error));
+      console.log('Erro:' + JSON.stringify(error));
     });
   };
-  
+
   const abrirGaleria = () => {
     launchImageLibrary({ mediaType: 'photo', quality: 0.5 }).then((result) => {
       if (result.assets) {
@@ -72,33 +65,47 @@ const NovaPesquisa = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log("Erro:" + JSON.stringify(error));
+      console.log('Erro:' + JSON.stringify(error));
     });
   };
 
+  const validarCampos = () => {
+    const validaNomePesquisa = !validator.isEmpty(txtNomePesquisa);
+    const validaDataPesquisa = regData.test(txtDataPesquisa);
 
-  const novaPesquisa = () => {
-    var validaNomePesquisa = !validator.isEmpty(txtNomePesquisa)
-    var validaDataPesquisa = regData.test(txtDataPesquisa)
     if (validaNomePesquisa && validaDataPesquisa) {
-      props.navigation.navigate('Drawer')
-    } else if (validaNomePesquisa === false && validaDataPesquisa === true) {
-      setShowError(1)
-    } else if (validaNomePesquisa === true && validaDataPesquisa === false) {
-      setShowError(2)
-    } else if (validaNomePesquisa === false && validaDataPesquisa === false) {
-      setShowError(3)
+      addPesquisa();
+    } else if (!validaNomePesquisa && validaDataPesquisa) {
+      setShowError(1);
+    } else if (validaNomePesquisa && !validaDataPesquisa) {
+      setShowError(2);
+    } else {
+      setShowError(3);
     }
-  }
+  };
+
+  const addPesquisa = () => {
+    const docPesquisa = {
+      nome: txtNomePesquisa,
+      data: txtDataPesquisa,
+      imagem: foto
+    };
+
+    addDoc(pesquisasCollection, docPesquisa).then((docRef) => {
+      console.log(docRef);
+      props.navigation.navigate('Drawer');
+    }).catch((erro) => {
+      console.log('Erro: ' + erro);
+      Alert.alert('Erro ao salvar pesquisa', 'Entre em contato com o Lúcio.');
+    });
+  };
 
   return (
     <View style={estilos.view}>
-
       <View style={estilos.cNome}>
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
-        {showError === 1 ? <Text style={estilos.erro}>Preencha o nome da pesquisa</Text> : null}
-        {showError === 3 ? <Text style={estilos.erro}>Preencha o nome da pesquisa</Text> : null}
+        {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
       </View>
 
       <View style={estilos.cData}>
@@ -107,24 +114,21 @@ const NovaPesquisa = (props) => {
           <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
           <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
         </View>
-        {showError === 2 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
-        {showError === 3 ? <Text style={estilos.erro}>Preencha a data</Text> : null}
+        {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
       </View>
 
       <View style={estilos.cBotao1}>
         <Text style={estilos.texto}>Imagem</Text>
-        {urlFoto ?
-          <Image source = {{uri: urlFoto}} style={{height: 'auto', width: '100%', position: 'absolute'}}/> : null
-        }
+        {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
         <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
       </View>
 
       <View style={estilos.cBotao2}>
-        <Botao texto="CADASTRAR" funcao={novaPesquisa} />
+        <Button title="CADASTRAR" onPress={validarCampos} />
       </View>
     </View>
-  )
-}
+  );
+};
 
 const estilos = StyleSheet.create({
   view: {
@@ -150,7 +154,7 @@ const estilos = StyleSheet.create({
     color: '#FFFFFF',
     marginTop: 2
   },
-  erro:{
+  erro: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 18,
     color: '#FD7979',
@@ -159,25 +163,26 @@ const estilos = StyleSheet.create({
   cNome: {
     position: 'absolute',
     marginTop: 20,
-    width: 807,
+    width: 500,
     marginHorizontal: 203
   },
   cData: {
     position: 'absolute',
     marginTop: 150,
-    width: 807,
+    width: 500,
     marginHorizontal: 203
   },
   cBotao1: {
     position: 'absolute',
     marginTop: 270,
-    width: 807,
+    width: 500,
     marginHorizontal: 203
   },
   cBotao2: {
     position: 'absolute',
     marginTop: 440,
-    width: 807,
+    height: 500,
+    width: 500,
     marginHorizontal: 203
   },
   textInput: {
@@ -189,11 +194,11 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20
   },
-  calendario:{
+  calendario: {
     position: 'absolute',
     zIndex: 9999,
     alignSelf: 'flex-end'
   }
-})
+});
 
-export default NovaPesquisa
+export default NovaPesquisa;

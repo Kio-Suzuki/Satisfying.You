@@ -1,45 +1,43 @@
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const AcoesPesquisa = (props) => {
+  const { pesquisa } = props.route.params; // Recebe os dados da pesquisa
 
   const modificar = () => {
-    props.navigation.navigate('ModificarPesquisa')
-  }
+    props.navigation.navigate('ModificarPesquisa', { pesquisa });
+  };
 
   const coletar = () => {
-    props.navigation.navigate('Coleta')
-  }
+    props.navigation.navigate('Coleta');
+  };
 
   const relatorio = () => {
-    props.navigation.navigate('Relatorio')
-  }
+    props.navigation.navigate('Relatorio');
+  };
 
   return (
     <View style={estilos.view}>
-
       <TouchableOpacity style={estilos.botao} onPress={modificar}>
-        <Icon name='edit-square' size={160} color={'#FFFFFF'}/>
+        <Icon name='edit' size={160} color={'#FFFFFF'} />
         <Text style={estilos.texto}>Modificar</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={estilos.botao} onPress={coletar}>
-        <Icon name='check-box' size={160} color={'#FFFFFF'}/>
+        <Icon name='check-box' size={160} color={'#FFFFFF'} />
         <Text style={estilos.texto}>Coletar dados</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={estilos.botao} onPress={relatorio}>
-        <Icon name='donut-large' size={160} color={'#FFFFFF'}/>
+        <Icon name='donut-large' size={160} color={'#FFFFFF'} />
         <Text style={estilos.texto}>Relatório</Text>
       </TouchableOpacity>
-
     </View>
-  )
-}
+  );
+};
 
 const estilos = StyleSheet.create({
-
-  view:{
+  view: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'row',
@@ -60,7 +58,7 @@ const estilos = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
-  },
-})
+  }
+});
 
-export default AcoesPesquisa
+export default AcoesPesquisa;

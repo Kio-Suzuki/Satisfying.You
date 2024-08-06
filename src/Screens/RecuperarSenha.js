@@ -1,8 +1,32 @@
-import { View, Text, TextInput, StyleSheet } from 'react-native'
+import { View, Text, TextInput, StyleSheet, Button } from 'react-native'
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import validator from 'validator'
+import { sendPasswordResetEmail } from 'firebase/auth'
+import { auth_mod } from '../firebase/config'
 
+const RecuperarSenha = (props) => {
+  const [email, setEmail] = useState('')
+
+  const recoverPassword = () => {
+    sendPasswordResetEmail(auth_mod, email).then(() => {
+      console.log("Senha resetada com sucesso!");
+    }).catch((erro) => {
+      console.log("Houve um erro ao tentar recuperar a senha!");
+    })
+  }
+
+  return (
+    <View>
+        <Text>E-mail</Text>
+        <TextInput value={email} onChangeText={setEmail}></TextInput>
+        <Button title='Recuperar senha' onPress={recoverPassword}></Button>
+    </View>
+
+  )
+}
+
+/*
 const RecuperarSenha = (props) => {
 
   const [txtEmail, setEmail] = useState('')
@@ -32,6 +56,7 @@ const RecuperarSenha = (props) => {
     </View>
   )
 }
+*/
 
 const estilos = StyleSheet.create({
   view: {

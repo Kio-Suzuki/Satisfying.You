@@ -2,7 +2,37 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import validator from 'validator'
+import { Button } from 'react-native-elements'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth_mod } from '../firebase/config'
 
+const NovaConta = props => {
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+
+  const cadastrarUsuario = () => {
+    createUserWithEmailAndPassword(auth_mod, email, password).then((userCredential) => {
+      console.log('Usuario criado com sucesso:' + JSON.stringify(userCredential));
+      //props.navigation.navigate = ('login');
+    }).catch((erro) => {
+      console.log('Erro ao criar usuário: ' + JSON.stringify(erro));
+    })
+  }
+
+  return (
+    <View>  
+      <Text>E-mail</Text>
+      <TextInput value={email} onChangeText={setEmail}/>
+      <Text>Password</Text>
+      <TextInput keyboardType='default' value={password} onChangeText={setPassword}/>
+      <Button title='Criar usuário' onPress={() => { cadastrarUsuario();
+
+      }}> </Button>
+    </View>
+  )
+  }
+
+  /*
 const NovaConta = (props) => {
   const [showError, setShowError] = useState(0);
 
@@ -47,6 +77,7 @@ const NovaConta = (props) => {
     </View>
   )
 }
+*/
 
 const estilos = StyleSheet.create({
   view: {
