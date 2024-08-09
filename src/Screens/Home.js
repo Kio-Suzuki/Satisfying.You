@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import Botao from '../components/Botao';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
-import { pesquisasCollection } from './firestoeConfig';
+import { pesquisasCollection } from '../services/firestoreConfig';
 import { query, onSnapshot } from 'firebase/firestore';
 
 const Home = (props) => {
@@ -27,10 +27,13 @@ const Home = (props) => {
     return () => unsubscribe();
   }, []);
 
+
   const itemPesquisa = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}>
-        <Text>Id: {item.id} Data: {item.data} Nome: {item.nome}</Text>
+        <View>
+          <Text>Id: {item.id} Data: {item.data} Nome: {item.nome}</Text>
+        </View>
       </TouchableOpacity>
     );
   };

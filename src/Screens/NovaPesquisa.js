@@ -7,7 +7,7 @@ import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { addDoc } from 'firebase/firestore'
-import { pesquisasCollection } from './firestoeConfig';
+import { pesquisasCollection } from '../services/firestoreConfig';
 
 const NovaPesquisa = (props) => {
   const [showError, setShowError] = useState(0);

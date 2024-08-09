@@ -7,6 +7,9 @@ const Coleta = (props) => {
     props.navigation.navigate('Agradecimento')
   }
 
+
+
+
   const voltar = () => {
     props.navigation.navigate('AcoesPesquisa')
   }

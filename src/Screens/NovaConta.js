@@ -4,87 +4,74 @@ import Botao from '../components/Botao'
 import validator from 'validator'
 import { Button } from 'react-native-elements'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth_mod } from '../firebase/config'
+import { auth_mod } from '../config/firebase'
+import { set } from 'date-fns'
 
-const NovaConta = props => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
 
-  const cadastrarUsuario = () => {
-    createUserWithEmailAndPassword(auth_mod, email, password).then((userCredential) => {
-      console.log('Usuario criado com sucesso:' + JSON.stringify(userCredential));
-      //props.navigation.navigate = ('login');
-    }).catch((erro) => {
-      console.log('Erro ao criar usuário: ' + JSON.stringify(erro));
-    })
-  }
-
-  return (
-    <View>  
-      <Text>E-mail</Text>
-      <TextInput value={email} onChangeText={setEmail}/>
-      <Text>Password</Text>
-      <TextInput keyboardType='default' value={password} onChangeText={setPassword}/>
-      <Button title='Criar usuário' onPress={() => { cadastrarUsuario();
-
-      }}> </Button>
-    </View>
-  )
-  }
-
-  /*
 const NovaConta = (props) => {
-  const [showError, setShowError] = useState(0);
-
-  const login = () => {
-    var validaEmail = validator.isEmail(txtEmail)
-    var validaSenha = validator.equals(txtSenha, txtConfirmaSenha)
-    if (validaEmail && validaSenha) {
-      props.navigation.navigate('Login');
-    } else if (validaEmail === false && validaSenha === true) {
-      setShowError(1);
-    } else if (validaEmail === true && validaSenha === false) {
-      setShowError(2);
-    } else if (validaEmail === false && validaSenha === false) {
-      setShowError(3);
-    }
-  }
+  const [showError, setShowError] = useState()
   const [txtEmail, setEmail] = useState('')
   const [txtSenha, setSenha] = useState('')
   const [txtConfirmaSenha, setConfirmaSenha] = useState('')
 
+  const cadastrarUsuario = () => {
+    // Correct the logic to set validaSenha to true if passwords match, false otherwise
+    var validaSenha = validator.equals(txtSenha, txtConfirmaSenha) ? true : "As senhas não coincidem.";
+    if (validaSenha === true) {
+      createUserWithEmailAndPassword(auth_mod, txtEmail, txtSenha).then(() => {
+        setShowError(false)
+        props.navigation.navigate('Login');
+      }).catch((erro) => {
+        console.log(erro.code)
+        switch (erro.code) {
+          case "auth/weak-password":
+            setShowError("Senha Fraca! Deve conter mais que 6 dígitos")
+            break;
+          case "auth/invalid-email":
+            setShowError("Email inválido!")
+            break;
+          case "auth/email-already-in-use": 
+            setShowError("Email já está sendo usado!")
+            break;
+          default:
+            setShowError("Ocorreu um erro, tente novamente mais tarde!")
+            break;
+        }
+      })
+    } else {
+        setShowError(validaSenha);
+    }
+}
+
   return (
     <View style={estilos.view}>
 
-      <View>
-        <Text style={estilos.texto}>E-mail</Text>
-        <TextInput style={estilos.textInput} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
+      <View style={{width: "70%", marginTop: 40}}>
+        <Text style={[estilos.texto,estilos.padraoTamanho]}>E-mail</Text>
+        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
 
-        <Text style={estilos.texto}>Senha</Text>
-        <TextInput style={estilos.textInput} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
+        <Text style={[estilos.texto,estilos.padraoTamanho]}>Senha</Text>
+        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
 
         <Text style={estilos.texto}>Repetir senha</Text>
-        <TextInput style={estilos.textInput} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
-        {showError === 1 ? <Text style={estilos.erro}>E-mail parece ser inválido</Text> : null}
-        {showError === 2 ? <Text style={estilos.erro}>O campo repetir senha difere da senha.</Text> : null}
-        {showError === 3 ? <Text style={estilos.erro}>E-mail parece ser inválido e/ou o campo repetir senha difere da senha.</Text> : null}
+        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
+        {showError ? <Text style={[estilos.erro,estilos.padraoTamanho]}> {showError} </Text> : null}
       </View>
 
-      <View style={estilos.cBotao}>
-        <Botao texto="CADASTRAR" funcao={login} />
+      <View style={[estilos.cBotao,estilos.padraoTamanho, {width: "70%"}]}>
+        <Botao texto="CADASTRAR" funcao={cadastrarUsuario} />
       </View>
 
     </View>
   )
 }
-*/
 
 const estilos = StyleSheet.create({
   view: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203
+    alignItems: 'center'
   },
 
   cTitulo: {
@@ -114,10 +101,8 @@ const estilos = StyleSheet.create({
     marginTop: 5
   },
   cBotao: {
-    position: 'absolute',
-    marginTop: 420,
-    width: 807,
-    marginHorizontal: 203
+    marginTop: 490,
+    position: "absolute"
   },
 
   textInput: {
@@ -127,8 +112,8 @@ const estilos = StyleSheet.create({
     color: '#3F92C5',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20
-  }
+  },
+
 })
 
 export default NovaConta

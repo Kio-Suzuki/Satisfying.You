@@ -3,7 +3,7 @@ import { useState } from 'react'
 import Botao from '../components/Botao'
 import validator from 'validator'
 import { sendPasswordResetEmail } from 'firebase/auth'
-import { auth_mod } from '../firebase/config'
+import { auth_mod } from '../config/firebase'
 
 const RecuperarSenha = (props) => {
   const [email, setEmail] = useState('')

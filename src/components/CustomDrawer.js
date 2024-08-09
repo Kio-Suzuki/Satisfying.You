@@ -3,6 +3,15 @@ import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 const CustomDrawer = (props) => {
+
+    const logout = () => {
+        signOut(auth).then(() => {
+            props.navigation.popToTop();
+          }).catch((error) => {
+            console.log(error)
+          });
+    }
+
     return (
         <DrawerContentScrollView {...props} style={{padding: 20}}>
 
@@ -16,7 +25,7 @@ const CustomDrawer = (props) => {
             <View style={{ paddingTop: 340 }}>
                 <DrawerItem 
                 labelStyle={{fontSize: 28, color: '#FFFFFF', fontFamily: 'AveriaLibre-Regular'}} 
-                label='Sair' onPress={() => {props.navigation.popToTop()}} 
+                label='Sair' onPress={() => {logout}} 
                 icon={() => <Icon name="logout" size={40} color="#FFFFFF"/>}/>
             </View>
         
