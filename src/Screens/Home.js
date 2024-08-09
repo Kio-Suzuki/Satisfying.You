@@ -7,32 +7,13 @@ import { pesquisasCollection } from '../services/firestoreConfig';
 import { query, onSnapshot } from 'firebase/firestore';
 
 const Home = (props) => {
-  const [ListaPesquisas, setListaPesquisas] = useState([]);
 
-  useEffect(() => {
-    const q = query(pesquisasCollection);
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const pesquisas = [];
-      snapshot.forEach((pes) => {
-        pesquisas.push({
-          id: pes.id,
-          ...pes.data()
-        });
-      });
-
-      setListaPesquisas(pesquisas);
-    });
-
-    return () => unsubscribe();
-  }, []);
-
+  
 
   const itemPesquisa = ({ item }) => {
     return (
       <TouchableOpacity onPress={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}>
         <View>
-          <Text>Id: {item.id} Data: {item.data} Nome: {item.nome}</Text>
         </View>
       </TouchableOpacity>
     );
@@ -59,9 +40,6 @@ const Home = (props) => {
 
       <View style={estilos.cards}>
         <FlatList
-          data={ListaPesquisas}
-          renderItem={itemPesquisa}
-          keyExtractor={(pesquisas) => pesquisas.id}
         />
       </View>
 

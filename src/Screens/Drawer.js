@@ -6,6 +6,7 @@ import Home from './Home'
 const DrawerNavigator = createDrawerNavigator()
 
 const Drawer = () => {
+  console.log("entrei aqui (DRAWER)")
   return (
     <DrawerNavigator.Navigator
       screenOptions={{

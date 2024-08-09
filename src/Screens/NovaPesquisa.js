@@ -38,9 +38,9 @@ const NovaPesquisa = (props) => {
         'Selecionar Imagem',
         'Escolha uma opção',
         [
+          { text: 'Cancelar', style: 'cancel' },
           { text: 'Câmera', onPress: abrirCamera },
           { text: 'Galeria', onPress: abrirGaleria },
-          { text: 'Cancelar', style: 'cancel' }
         ],
         { cancelable: true }
       );
@@ -85,6 +85,9 @@ const NovaPesquisa = (props) => {
   };
 
   const addPesquisa = () => {
+
+    // fazer upload antes de salvar
+    
     const docPesquisa = {
       nome: txtNomePesquisa,
       data: txtDataPesquisa,

@@ -47,18 +47,18 @@ const NovaConta = (props) => {
     <View style={estilos.view}>
 
       <View style={{width: "70%", marginTop: 40}}>
-        <Text style={[estilos.texto,estilos.padraoTamanho]}>E-mail</Text>
-        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
+        <Text style={[estilos.texto]}>E-mail</Text>
+        <TextInput style={[estilos.textInput]} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
 
-        <Text style={[estilos.texto,estilos.padraoTamanho]}>Senha</Text>
-        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
+        <Text style={[estilos.texto]}>Senha</Text>
+        <TextInput style={[estilos.textInput]} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
 
         <Text style={estilos.texto}>Repetir senha</Text>
-        <TextInput style={[estilos.textInput,estilos.padraoTamanho]} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
-        {showError ? <Text style={[estilos.erro,estilos.padraoTamanho]}> {showError} </Text> : null}
+        <TextInput style={[estilos.textInput]} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
+        {showError ? <Text style={[estilos.erro]}> {showError} </Text> : null}
       </View>
 
-      <View style={[estilos.cBotao,estilos.padraoTamanho, {width: "70%"}]}>
+      <View style={[estilos.cBotao, {width: "70%"}]}>
         <Botao texto="CADASTRAR" funcao={cadastrarUsuario} />
       </View>
 
