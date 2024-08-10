@@ -5,10 +5,11 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
 import { pesquisasCollection } from '../services/firestoreConfig';
 import { query, onSnapshot } from 'firebase/firestore';
+import { useUsuario } from '../context/UserContext'
 
 const Home = (props) => {
 
- 
+  const { uid } = useUsuario();
 
   const itemPesquisa = ({ item }) => {
     return (

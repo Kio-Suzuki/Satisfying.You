@@ -11,7 +11,7 @@ import { useUsuario } from '../context/UserContext'
 
 const Login = props => {
   
-  const { setUsuario } = useUsuario();
+  const { setUsuario, setEmailUsuario, setUidUsuario } = useUsuario();
   const [txtEmail, setEmail] = useState('');
   const [txtSenha, setSenha] = useState('');
   const [showError, setShowError] = useState();
@@ -21,6 +21,8 @@ const Login = props => {
     if (valida) {
       signInWithEmailAndPassword(auth, txtEmail, txtSenha).then((userCredentials) => {
         setUsuario(userCredentials)
+        setEmailUsuario(userCredentials.user.email)
+        setUidUsuario(userCredentials.user.uid)
         setEmail('')
         setSenha('')
         props.navigation.navigate('Drawer');
