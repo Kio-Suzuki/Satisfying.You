@@ -6,7 +6,7 @@ import validator from 'validator';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc, setDoc, collection } from 'firebase/firestore'
+import { addDoc, setDoc, pesquisasCollection } from 'firebase/firestore'
 import { storageRef, db, storage} from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
@@ -106,9 +106,9 @@ const NovaPesquisa = (props) => {
             nRuim: 0,
             nPessimo: 0
           };
-          //MODAL PARA NOTIFICACAO
           try {
-            addDoc(collection(db, 'pesquisas'), docPesquisa).then(() => {
+            docPesquisa
+            addDoc(pesquisasCollection, docPesquisa).then(() => {
                 console.log("TA DRAWER")
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
@@ -129,7 +129,7 @@ const NovaPesquisa = (props) => {
       console.log('Erro: ', error);
     });  
   }
-
+  
 
   return (
     <View style={[estilos.view, {width: "100%", alignItems: "center"}]}>

@@ -1,13 +1,30 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
+import { BarChart, PieChart} from "react-native-gifted-charts";
 
 const Relatorio = () => {
+
+  const data=[
+    {value:50, color: '#F1CE7E', text: 'Excelente'}, 
+    {value:80, color: '#6994FE', text: 'Bom'}, 
+    {value:90, color: '#5FCDA4', text: 'Neutro'}, 
+    {value:70, color: '#EA7288', text: 'Ruim'},
+    {value:50, color: '#53D8D8', text: 'Péssimo'} 
+  ]
+
   return (
     <View style={estilos.view}>
 
       <View>
-        <Image source={require('../../assets/images/graphic.png')} />
+        <PieChart
+          data={data}
+          showText
+          textColor="#FFF"
+          showValuesAsLabels
+          strokeWidth={0}
+          radius={220}
+        />
       </View>
-
+      
       <View>
         <View style={estilos.legenda}>
           <View style={estilos.quadrado} backgroundColor="#F1CE7E" />

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth} from "firebase/auth";
-import { initializeFirestore } from "firebase/firestore"
+import { initializeFirestore, collection} from "firebase/firestore"
 import { getStorage, ref} from "firebase/storage"
 
 
@@ -19,5 +19,6 @@ const auth = getAuth(app);
 const db = initializeFirestore(app, { experimentalForceLongPolling: true });
 const storage = getStorage(app);
 const storageRef = ref(storage);
+const pesquisasCollection = collection(db, 'pesquisas');
 
-export { auth, app, db, storage, storageRef }
+export { auth, app, db, storage, storageRef, pesquisasCollection}

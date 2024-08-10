@@ -1,6 +1,7 @@
 import { Text, TouchableOpacity, StyleSheet, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
+
 const Card = ({ imageUrl, titulo, data, funcao }) => {
   return (
     <TouchableOpacity style={estilo.card} onPress={funcao}>
@@ -9,9 +10,8 @@ const Card = ({ imageUrl, titulo, data, funcao }) => {
         <Text style={estilo.dataCard}>{data}</Text>
     </TouchableOpacity>
   );
-};
+};const estilo = StyleSheet.create({
 
-const estilo = StyleSheet.create({
 
   card: {
     backgroundColor: '#FFFFFF',

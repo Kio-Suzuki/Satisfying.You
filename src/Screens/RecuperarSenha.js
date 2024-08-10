@@ -76,7 +76,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  cBotao: {
+cBotao: {
     position: 'absolute',
     marginTop: 320,
     width: 807,

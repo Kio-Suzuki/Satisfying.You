@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Botao from '../components/Botao';
 import Popup from '../components/Popup';
 import { updateDoc, doc, deleteDoc } from 'firebase/firestore';
-import { db } from '../services/firestoreConfig';
+import { db } from '../config/firebase';
 
 const Modificar = (props) => {
   const { pesquisa } = props.route.params; // Recebe os dados da pesquisa
