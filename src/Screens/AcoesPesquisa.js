@@ -9,11 +9,11 @@ const AcoesPesquisa = (props) => {
   };
 
   const coletar = () => {
-    props.navigation.navigate('Coleta');
+    props.navigation.navigate('Coleta', { pesquisa });
   };
 
   const relatorio = () => {
-    props.navigation.navigate('Relatorio');
+    props.navigation.navigate('Relatorio', { pesquisa });
   };
 
   return (
@@ -62,3 +62,4 @@ const estilos = StyleSheet.create({
 });
 
 export default AcoesPesquisa;
+

@@ -130,12 +130,12 @@ const estilos = StyleSheet.create({
   },
   cBotao1: {
     position: 'absolute',
-    marginTop: 400,
+    marginTop: 380,
   },
 
   cBotao2: {
     position: 'absolute',
-    marginTop: 490,
+    marginTop: 590,
   },
 
   textInput: {

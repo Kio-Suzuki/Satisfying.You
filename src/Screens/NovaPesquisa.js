@@ -20,7 +20,6 @@ const NovaPesquisa = (props) => {
   const { uid } = useUsuario();
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
-
   const buscaImagem = () => {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
@@ -76,7 +75,7 @@ const NovaPesquisa = (props) => {
     const validaNomePesquisa = !validator.isEmpty(txtNomePesquisa);
     const validaDataPesquisa = regData.test(txtDataPesquisa);
 
-    if (validaNomePesquisa && validaDataPesquisa) {
+    if (validaNomePesquisa && validaDataPesquisa && foto) {
       addPesquisa();
     } else if (!validaNomePesquisa && validaDataPesquisa) {
       setShowError(1);
@@ -89,7 +88,8 @@ const NovaPesquisa = (props) => {
 
 
   const addPesquisa = async () => {
-    const imageRef = ref(storage, `${new Date().toISOString()}_${foto.name}`);
+    const nomeImagem = `${new Date().toISOString()}_${foto.name}`
+    const imageRef = ref(storage, nomeImagem);
     const file = await fetch(urlFoto);
     const blob = await file.blob();
 
@@ -101,6 +101,7 @@ const NovaPesquisa = (props) => {
             nome: txtNomePesquisa.toUpperCase(),
             data: txtDataPesquisa,
             imagem: imageUrl,
+            imagemRef: nomeImagem,
             nExcelente: 0,
             nNeutro: 0,
             nBom: 0,
@@ -132,31 +133,33 @@ const NovaPesquisa = (props) => {
   
 
   return (
-    <View style={[estilos.view, {width: "100%", alignItems: "center"}]}>
-      <View style={estilos.cNome}>
-        <Text style={estilos.texto}>Nome</Text>
-        <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
-        {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
-      </View>
-
-      <View style={estilos.cData}>
-        <Text style={estilos.texto}>Data</Text>
-        <View>
-          <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
-          <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+    <View style={estilos.view}>
+      <View style={estilos.cForm}>
+        <View style={estilos.cNome}>
+          <Text style={estilos.texto}>Nome</Text>
+          <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
+          {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
         </View>
-        {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
-      </View>
 
-      <View style={estilos.cBotao1}>
-        <Text style={estilos.texto}>Imagem</Text>
-        {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
-        <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
-      </View>
+        <View style={estilos.cData}>
+          <Text style={estilos.texto}>Data</Text>
+          <View>
+            <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
+            <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+          </View>
+          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+        </View>
 
+        <View style={estilos.cBotao1}>
+          <Text style={estilos.texto}>Imagem</Text>
+          {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
+          <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
+          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+        </View>
+      </View>
       <View style={estilos.cBotao2}>
-        <Button title="CADASTRAR" onPress={validarCampos} />
-      </View>
+        <Button style={{ backgroundColor: '#37BD6D' }} title="CADASTRAR" onPress={validarCampos} />
+      </View>      
     </View>
   );
 }
@@ -167,6 +170,15 @@ const estilos = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 203,
+    width: "100%", 
+    alignItems: "center", 
+    justifyContent: 'space-between',
+    paddingBottom: 60
+  },
+  cForm:{
+    width: '90%',
+    padding: 0,
+    alignItems: 'center',
   },
   cTitulo: {
     flexDirection: 'row',
@@ -193,28 +205,28 @@ const estilos = StyleSheet.create({
   },
   cNome: {
     position: 'absolute',
+    width: '100%',
     marginTop: 20,
-    width: 500,
   },
   cData: {
     position: 'absolute',
     marginTop: 150,
-    width: 500,
+    width: '100%',
     marginHorizontal: 203
   },
   cBotao1: {
+    size: '200px',
     position: 'absolute',
     marginTop: 270,
-    width: 500,
+    width: '100%',
     marginHorizontal: 203,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },
   cBotao2: {
     backgroundColor: "#37BD6D",
-    position: 'absolute',
-    marginTop: 440,
-    width: "80%",
+    width: "90%",
+    height: 40,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },

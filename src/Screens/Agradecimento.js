@@ -1,10 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native'
 import React from 'react';
 
-const Agradecimento = ({ navigation }, props) => {
+const Agradecimento = (props) => {
+
+
+  const { pesquisa } = props.route.params; 
 
   setTimeout(() => {
-    navigation.navigate('Coleta');
+    props.navigation.navigate('Coleta', { pesquisa });
   }, 3000);
 
   return (

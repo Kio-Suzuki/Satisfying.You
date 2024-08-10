@@ -10,17 +10,32 @@ import Card  from '../components/Card.js';
 
 const Home = (props) => {
   const [txtPesquisa, setPesquisa] = useState('');
+  const [filtrado, setFiltrado] = useState('');
   const [pesquisas, setPesquisas] = useState([]);
   const { uid } = useUsuario();
+
+
   useEffect(() => {
     const pesq = query(pesquisasCollection, where('userId', '==', uid));
     const unsubscribe = onSnapshot(pesq, (snap) => {
       const dados = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPesquisas(dados);
+      setFiltrado(dados);
     });
 
     return () => unsubscribe();
   }, []);
+
+
+  useEffect(() =>{
+    if(txtPesquisa== ''){
+      setFiltrado(pesquisas)
+    }else{
+      const pesquisado = txtPesquisa.toLowerCase();
+      const pesquisaFiltrada = pesquisas.filter(item => item.nome.toLowerCase().includes(pesquisado))
+      setFiltrado(pesquisaFiltrada)
+    }
+  }, [txtPesquisa, pesquisas])
 
   const itemPesquisa = ({ item }) => {
     return (
@@ -48,7 +63,7 @@ const Home = (props) => {
       <View style={{marginTop: 60}}>
         <FlatList
           horizontal
-          data={pesquisas}
+          data={filtrado}
           renderItem={itemPesquisa}
           keyExtractor={item => item.id}
           />
@@ -64,7 +79,9 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    padding: 30
+    padding: 30,
+    justifyContent: 'space-between',
+
   },
 
   cards: {
@@ -86,7 +103,7 @@ const estilos = StyleSheet.create({
   },
 
   cBotao1: {
-    marginTop: 20
+    marginTop: 20,
   },
 
   textInput: {
