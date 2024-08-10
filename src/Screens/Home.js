@@ -5,12 +5,15 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
 import { pesquisasCollection } from '../config/firebase.js';
 import { query, onSnapshot } from 'firebase/firestore';
+import { useUsuario } from '../context/UserContext'
 import Card  from '../components/Card.js';
 
 const Home = (props) => {
   const [txtPesquisa, setPesquisa] = useState('');
   const [pesquisas, setPesquisas] = useState([]);
   const userID = userCredentrials.user.uid;
+
+  const { uid } = useUsuario();
 
   useEffect(() => {
     const pesq = query(pesquisasCollection, where('userID', '==', userID));
@@ -21,7 +24,6 @@ const Home = (props) => {
 
     return () => unsubscribe();
   }, []);
-  
 
   const itemPesquisa = ({ item }) => {
     return (
