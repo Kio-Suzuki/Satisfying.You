@@ -1,17 +1,24 @@
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getAuth} from "firebase/auth";
+import { initializeFirestore, collection} from "firebase/firestore"
+import { getStorage, ref} from "firebase/storage"
+
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAk-4r_JaAdUZSX7mDyQVA6ma8wI5_4uPA",
-  authDomain: "satisfying-you-5a171.firebaseapp.com",
-  projectId: "satisfying-you-5a171",
-  storageBucket: "satisfying-you-5a171.appspot.com",
-  messagingSenderId: "227964845516",
-  appId: "1:227964845516:web:2e577833b65d4a7721b169",
-  measurementId: "G-73CYFR6R8R"
+  apiKey: "AIzaSyDwzon_5YNwuQuM9rFQBvrFzwM1q15ASRk",
+  authDomain: "eita-47936.firebaseapp.com",
+  projectId: "eita-47936",
+  storageBucket: "eita-47936.appspot.com",
+  messagingSenderId: "958910281035",
+  appId: "1:958910281035:web:8eb6517b1e0e118d0964ce"
 };
 
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
 
-export default app
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+const storage = getStorage(app);
+const storageRef = ref(storage);
+const pesquisasCollection = collection(db, 'pesquisas');
+
+export { auth, app, db, storage, storageRef, pesquisasCollection}

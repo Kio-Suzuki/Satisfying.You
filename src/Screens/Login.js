@@ -6,57 +6,45 @@ import Botao from '../components/Botao';
 import Botao2 from '../components/Botao2';
 import Botao3 from '../components/Botao3';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth_mod } from '../firebase/config';
+import { auth } from '../config/firebase';
+import { useUsuario } from '../context/UserContext'
+
 
 const Login = props => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  const novaConta = () => {
-    props.navigation.navigate('NovaConta');
-  };
-
-  const recuperarConta = email => {
-    if (email) {
-      props.navigation.navigate('RecuperarConta');
-    }
-  };
-
-  const authenticator = () => {
-    signInWithEmailAndPassword(auth_mod, email, password).then((userLogged) => {
-      console.log("Usuário autenticado com sucesso!");
-      props.navigation.navigate('Drawer');
-    }).catch((erro) => {
-      console.log("Houve um erro ao tentar autenticar o usuário!");
-    })
-
-  }
-  return (
-    <View>  
-      <Text>E-mail</Text>
-      <TextInput value={email} onChangeText={setEmail}/>
-      <Text>Password</Text>
-      <TextInput keyboardType='default' value={password} onChangeText={setPassword}/>
-      <Button title='Entrar' onPress={authenticator}></Button>
-      <Button title='Cadastrar' onPress={novaConta}></Button>
-      <Button title='Recuperar senha' onPress={recuperarConta}></Button>
-    </View>
-  )
-
-}
-
-/*
-const Login = props => {
+  
+  const { setUsuario, setEmailUsuario, setUidUsuario } = useUsuario();
   const [txtEmail, setEmail] = useState('');
   const [txtSenha, setSenha] = useState('');
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState();
 
   const entrarHome = () => {
     var valida = validator.isEmail(txtEmail);
     if (valida) {
-      props.navigation.navigate('Drawer');
+      signInWithEmailAndPassword(auth, txtEmail, txtSenha).then((userCredentials) => {
+        setUsuario(userCredentials)
+        setEmailUsuario(userCredentials.user.email)
+        setUidUsuario(userCredentials.user.uid)
+        setEmail('')
+        setSenha('')
+        props.navigation.navigate('Drawer');
+      }).catch((erro) => {
+        switch (erro.code) {
+          case "auth/user-not-found":
+            setShowError("Email não cadastrado!")
+            break;
+          case "auth/wrong-password":
+            setShowError("Email ou senha inválido(s)!")
+            break;
+          case "auth/invalid-login-credentials":
+            setShowError("Email ou senha inválido(s)!")
+            break;
+          default:
+            setShowError("Erro, tente novamente mais tarde!")
+            break;
+        }
+      })
     } else {
-      setShowError(true);
+      setShowError("Email inválido");
     }
   }
 
@@ -77,7 +65,7 @@ const Login = props => {
         <Icon name="sentiment-satisfied" size={75} color="#FFFFFF" />
       </View>
 
-      <View>
+      <View style={estilos.tamanhoPadrao}>
         <Text style={estilos.texto}>E-mail</Text>
         <TextInput
           style={estilos.textInput}
@@ -93,28 +81,27 @@ const Login = props => {
           value={txtSenha}
           onChangeText={setSenha}
         />
-        {showError ? <Text style={estilos.erro}>E-mail e/ou senha inválidos.</Text> : null}
+        {showError ? <Text style={estilos.erro}> {showError} </Text> : null}
       </View>
 
-      <View style={estilos.cBotao1}>
+      <View style={[estilos.cBotao1,estilos.tamanhoPadrao]}>
         <Botao texto="Entrar" funcao={entrarHome} />
       </View>
 
-      <View style={estilos.cBotao2}>
+      <View style={[estilos.cBotao2,estilos.tamanhoPadrao]}>
         <Botao2 texto="Criar minha conta" funcao={novaConta} />
         <Botao3 texto="Esqueci minha senha" funcao={recuparConta} />
       </View>
     </View>
   );
 };
-*/
 
 const estilos = StyleSheet.create({
   view: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203,
+    alignItems: 'center'
   },
 
   cTitulo: {
@@ -144,15 +131,11 @@ const estilos = StyleSheet.create({
   cBotao1: {
     position: 'absolute',
     marginTop: 400,
-    width: 807,
-    marginHorizontal: 203
   },
 
   cBotao2: {
     position: 'absolute',
     marginTop: 490,
-    width: 807,
-    marginHorizontal: 203
   },
 
   textInput: {
@@ -162,8 +145,10 @@ const estilos = StyleSheet.create({
     color: '#3F92C5',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
   },
+  tamanhoPadrao: {
+    width: "70%"
+  }
 });
 
 export default Login;

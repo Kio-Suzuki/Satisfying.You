@@ -1,3 +1,5 @@
 {
-    "java.compile.nullAnalysis.mode": "automatic"
+    "java.compile.nullAnalysis.mode": "automatic",
+    "editor.fontFamily": "JetBrains Mono",
+    "editor.fontLigatures": true
 }

@@ -3,25 +3,20 @@ import { useState, useEffect } from 'react';
 import Botao from '../components/Botao';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
-import { pesquisasCollection } from './firestoeConfig';
-import { query, onSnapshot } from 'firebase/firestore';
+import { pesquisasCollection } from '../config/firebase.js';
+import { query, onSnapshot, where } from 'firebase/firestore';
+import { useUsuario } from '../context/UserContext'
+import Card  from '../components/Card.js';
 
 const Home = (props) => {
-  const [ListaPesquisas, setListaPesquisas] = useState([]);
-
+  const [txtPesquisa, setPesquisa] = useState('');
+  const [pesquisas, setPesquisas] = useState([]);
+  const { uid } = useUsuario();
   useEffect(() => {
-    const q = query(pesquisasCollection);
-
-    const unsubscribe = onSnapshot(q, (snapshot) => {
-      const pesquisas = [];
-      snapshot.forEach((pes) => {
-        pesquisas.push({
-          id: pes.id,
-          ...pes.data()
-        });
-      });
-
-      setListaPesquisas(pesquisas);
+    const pesq = query(pesquisasCollection, where('userId', '==', uid));
+    const unsubscribe = onSnapshot(pesq, (snap) => {
+      const dados = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPesquisas(dados);
     });
 
     return () => unsubscribe();
@@ -29,13 +24,14 @@ const Home = (props) => {
 
   const itemPesquisa = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}>
-        <Text>Id: {item.id} Data: {item.data} Nome: {item.nome}</Text>
-      </TouchableOpacity>
+      <Card
+        imageUrl={item.imagem}
+        titulo={item.nome}
+        data={item.data}
+        funcao={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}
+      />
     );
   };
-
-  const [txtPesquisa, setPesquisa] = useState('');
 
   const novaPesquisa = () => {
     props.navigation.navigate('NovaPesquisa');
@@ -43,31 +39,25 @@ const Home = (props) => {
 
   return (
     <View style={estilos.view}>
-      <View>
-        <TextInput
-          style={estilos.textInput}
-          value={txtPesquisa}
-          onChangeText={setPesquisa}
-          inlineImageLeft="search"
-          inlineImagePadding={5}
-          placeholder="Insira o termo de busca..."
-        />
-      </View>
-
-      <View style={estilos.cards}>
+      <TextInput
+        style={estilos.textInput}
+        placeholder="Pesquisar"
+        value={txtPesquisa}
+        onChangeText={setPesquisa}
+      />
+      <View style={{marginTop: 60}}>
         <FlatList
-          data={ListaPesquisas}
+          horizontal
+          data={pesquisas}
           renderItem={itemPesquisa}
-          keyExtractor={(pesquisas) => pesquisas.id}
-        />
+          keyExtractor={item => item.id}
+          />
       </View>
-
-      <View style={estilos.cBotao1}>
-        <Botao texto='NOVA PESQUISA' funcao={novaPesquisa} />
-      </View>
+      <Botao style={estilos.cBotao1} funcao={novaPesquisa} texto="Nova Pesquisa" />
     </View>
   );
 };
+
 
 const estilos = StyleSheet.create({
   view: {

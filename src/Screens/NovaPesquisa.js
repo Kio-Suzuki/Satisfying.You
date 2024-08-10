@@ -6,8 +6,10 @@ import validator from 'validator';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc } from 'firebase/firestore'
-import { pesquisasCollection } from './firestoeConfig';
+import { addDoc, setDoc,  } from 'firebase/firestore'
+import { storageRef, db, storage, pesquisasCollection} from '../config/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useUsuario } from '../context/UserContext'
 
 const NovaPesquisa = (props) => {
   const [showError, setShowError] = useState(0);
@@ -15,6 +17,7 @@ const NovaPesquisa = (props) => {
   const [txtDataPesquisa, setDataPesquisa] = useState('');
   const [urlFoto, setUrlFoto] = useState('');
   const [foto, setFoto] = useState();
+  const { uid } = useUsuario();
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
 
@@ -38,9 +41,9 @@ const NovaPesquisa = (props) => {
         'Selecionar Imagem',
         'Escolha uma opção',
         [
+          { text: 'Cancelar', style: 'cancel' },
           { text: 'Câmera', onPress: abrirCamera },
           { text: 'Galeria', onPress: abrirGaleria },
-          { text: 'Cancelar', style: 'cancel' }
         ],
         { cancelable: true }
       );
@@ -84,24 +87,52 @@ const NovaPesquisa = (props) => {
     }
   };
 
-  const addPesquisa = () => {
-    const docPesquisa = {
-      nome: txtNomePesquisa,
-      data: txtDataPesquisa,
-      imagem: foto
-    };
 
-    addDoc(pesquisasCollection, docPesquisa).then((docRef) => {
-      console.log(docRef);
-      props.navigation.navigate('Drawer');
-    }).catch((erro) => {
-      console.log('Erro: ' + erro);
-      Alert.alert('Erro ao salvar pesquisa', 'Entre em contato com o Lúcio.');
-    });
-  };
+  const addPesquisa = async () => {
+    const imageRef = ref(storage, `${new Date().toISOString()}_${foto.name}`);
+    const file = await fetch(urlFoto);
+    const blob = await file.blob();
+
+    await uploadBytes(imageRef, blob, { contentType: 'image/jpeg' })
+    .then((uploadRes) => {
+      try {
+        getDownloadURL(uploadRes.ref).then((imageUrl) => {
+          const docPesquisa = {
+            nome: txtNomePesquisa.toUpperCase(),
+            data: txtDataPesquisa,
+            imagem: imageUrl,
+            nExcelente: 0,
+            nNeutro: 0,
+            nBom: 0,
+            nRuim: 0,
+            nPessimo: 0,
+            userId: uid
+          };
+          try {
+            addDoc(pesquisasCollection, docPesquisa).then(() => {
+                props.navigation.navigate('Drawer');
+              }).catch((erro) => {
+                console.log("TA ERRO")
+                console.log("Erro no addDoc:", erro);
+              });
+              console.log("TA AQUI")
+          } catch (erro) {
+            console.log('Erro talvez do addDoc: ', erro);
+          }
+        });
+      } catch (erro) {
+        console.log('Erro do getDownload: ', erro);
+      }
+      console.log('Sucesso!!!');
+    })
+    .catch((error) => {
+      console.log('Erro de tudo: ', error);
+    });  
+  }
+  
 
   return (
-    <View style={estilos.view}>
+    <View style={[estilos.view, {width: "100%", alignItems: "center"}]}>
       <View style={estilos.cNome}>
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
@@ -128,7 +159,7 @@ const NovaPesquisa = (props) => {
       </View>
     </View>
   );
-};
+}
 
 const estilos = StyleSheet.create({
   view: {
@@ -164,7 +195,6 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     marginTop: 20,
     width: 500,
-    marginHorizontal: 203
   },
   cData: {
     position: 'absolute',
@@ -176,14 +206,17 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     marginTop: 270,
     width: 500,
-    marginHorizontal: 203
+    marginHorizontal: 203,
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: "28px"
   },
   cBotao2: {
+    backgroundColor: "#37BD6D",
     position: 'absolute',
     marginTop: 440,
-    height: 500,
-    width: 500,
-    marginHorizontal: 203
+    width: "80%",
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: "28px"
   },
   textInput: {
     fontSize: 28,

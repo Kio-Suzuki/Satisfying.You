@@ -3,42 +3,31 @@ import { useState } from 'react'
 import Botao from '../components/Botao'
 import validator from 'validator'
 import { sendPasswordResetEmail } from 'firebase/auth'
-import { auth_mod } from '../firebase/config'
+import { auth } from '../config/firebase'
 
-const RecuperarSenha = (props) => {
-  const [email, setEmail] = useState('')
 
-  const recoverPassword = () => {
-    sendPasswordResetEmail(auth_mod, email).then(() => {
-      console.log("Senha resetada com sucesso!");
-    }).catch((erro) => {
-      console.log("Houve um erro ao tentar recuperar a senha!");
-    })
-  }
-
-  return (
-    <View>
-        <Text>E-mail</Text>
-        <TextInput value={email} onChangeText={setEmail}></TextInput>
-        <Button title='Recuperar senha' onPress={recoverPassword}></Button>
-    </View>
-
-  )
-}
-
-/*
 const RecuperarSenha = (props) => {
 
   const [txtEmail, setEmail] = useState('')
-  const [showError, setShowError] = useState(false);
+  const [showError, setShowError] = useState();
 
-  const login = () => {
-    var valida = validator.isEmail(txtEmail);
-    if (valida) {
+
+  const recuperarSenha = () => {
+    sendPasswordResetEmail(auth, txtEmail).then(() => {
       props.navigation.navigate('Login');
-    } else {
-      setShowError(true);
-    }
+    }).catch((erro) => {
+      switch(erro){
+        case "auth/invalid-email":
+          setShowError("E-mail inválido.")
+          break;
+        case "auth/user-not-found":
+          setShowError("E-mail não cadastrado")
+          break;
+        default:
+          setShowError("Ocorreu um erro, tente novamente mais tarde.")
+          break;
+      }
+    })
   }
 
   return (
@@ -46,17 +35,16 @@ const RecuperarSenha = (props) => {
       <View>
         <Text style={estilos.texto}>E-mail</Text>
         <TextInput style={estilos.textInput} value={txtEmail} onChangeText={setEmail} />
-        {showError ? <Text style={estilos.erro}>E-mail parece ser inválido</Text> : null}
+        {showError ? <Text style={estilos.erro}>{showError}</Text> : null}
       </View>
 
       <View style={estilos.cBotao}>
-        <Botao texto="RECUPERAR" funcao={login} />
+        <Botao texto="RECUPERAR" funcao={recuperarSenha} />
       </View>
 
     </View>
   )
 }
-*/
 
 const estilos = StyleSheet.create({
   view: {
@@ -88,7 +76,7 @@ const estilos = StyleSheet.create({
     paddingHorizontal: 20,
   },
 
-  cBotao: {
+cBotao: {
     position: 'absolute',
     marginTop: 320,
     width: 807,

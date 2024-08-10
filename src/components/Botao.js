@@ -15,7 +15,7 @@ const estilo = StyleSheet.create({
   fundo: {
     backgroundColor: '#37BD6D',
     height: 50,
-    marginTop: 10,
+    marginTop: 55,
     justifyContent: 'center',
     alignItems: 'center',
   },

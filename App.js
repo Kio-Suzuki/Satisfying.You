@@ -10,25 +10,31 @@ import ModificarPesquisa from './src/Screens/ModificarPesquisa'
 import Coleta from './src/Screens/Coleta'
 import Relatorio from './src/Screens/Relatorio'
 import Agradecimento from './src/Screens/Agradecimento'
+import { UsuarioProvider } from './src/context/UserContext'
+import { PesquisaProvider } from './src/context/PesquisaContext'
 
 const Stack = createStackNavigator()
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
-        <Stack.Screen name="NovaConta" component={NovaConta} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Nova Conta', headerTitleStyle: {fontSize: 48, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="RecuperarConta" component={RecuperarSenha} options={{headerTintColor: '#FFFFFF', headerTitle: 'Recuperar Senha', headerTitleStyle: {fontSize: 48, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }}/>
-        <Stack.Screen name="NovaPesquisa" component={NovaPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Nova Pesquisa', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="AcoesPesquisa" component={AcoesPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="ModificarPesquisa" component={ModificarPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="Coleta" component={Coleta} options={{ headerShown: false }}/>
-        <Stack.Screen name="Relatorio" component={Relatorio} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Relatório', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
-        <Stack.Screen name="Agradecimento" component={Agradecimento} options={{ headerShown: false }}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <UsuarioProvider>
+      <PesquisaProvider>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="NovaConta" component={NovaConta} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Nova Conta', headerTitleStyle: {fontSize: 48, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="RecuperarConta" component={RecuperarSenha} options={{headerTintColor: '#FFFFFF', headerTitle: 'Recuperar Senha', headerTitleStyle: {fontSize: 48, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="Drawer" component={Drawer} options={{ headerShown: false }}/>
+            <Stack.Screen name="NovaPesquisa" component={NovaPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Nova Pesquisa', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="AcoesPesquisa" component={AcoesPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="ModificarPesquisa" component={ModificarPesquisa} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Carnaval', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="Coleta" component={Coleta} options={{ headerShown: false }}/>
+            <Stack.Screen name="Relatorio" component={Relatorio} options={{ headerTintColor: '#FFFFFF', headerTitle: 'Relatório', headerTitleStyle: {fontSize: 42, fontFamily: 'AveriaLibre-Regular'}, headerStyle: { backgroundColor: '#2B1D62', height: 80} }}/>
+            <Stack.Screen name="Agradecimento" component={Agradecimento} options={{ headerShown: false }}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PesquisaProvider>
+    </UsuarioProvider>
   )
 }
 
