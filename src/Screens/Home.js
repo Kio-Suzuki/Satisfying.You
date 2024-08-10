@@ -8,7 +8,7 @@ import { query, onSnapshot } from 'firebase/firestore';
 
 const Home = (props) => {
 
-  
+ 
 
   const itemPesquisa = ({ item }) => {
     return (
@@ -40,6 +40,7 @@ const Home = (props) => {
 
       <View style={estilos.cards}>
         <FlatList
+
         />
       </View>
 

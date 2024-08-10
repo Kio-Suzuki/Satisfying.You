@@ -6,8 +6,10 @@ import validator from 'validator';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc } from 'firebase/firestore'
-import { pesquisasCollection } from '../services/firestoreConfig';
+import { addDoc, setDoc, collection } from 'firebase/firestore'
+import { storageRef, db, storage} from '../config/firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 
 const NovaPesquisa = (props) => {
   const [showError, setShowError] = useState(0);
@@ -84,27 +86,53 @@ const NovaPesquisa = (props) => {
     }
   };
 
-  const addPesquisa = () => {
 
-    // fazer upload antes de salvar
-    
-    const docPesquisa = {
-      nome: txtNomePesquisa,
-      data: txtDataPesquisa,
-      imagem: foto
-    };
+  const addPesquisa = async () => {
+    const imageRef = ref(storage, `${new Date().toISOString()}_${foto.name}`);
+    const file = await fetch(urlFoto);
+    const blob = await file.blob();
 
-    addDoc(pesquisasCollection, docPesquisa).then((docRef) => {
-      console.log(docRef);
-      props.navigation.navigate('Drawer');
-    }).catch((erro) => {
-      console.log('Erro: ' + erro);
-      Alert.alert('Erro ao salvar pesquisa', 'Entre em contato com o Lúcio.');
-    });
-  };
+    await uploadBytes(imageRef, blob, { contentType: 'image/jpeg' })
+    .then((uploadRes) => {
+      try {
+        getDownloadURL(uploadRes.ref).then((imageUrl) => {
+          const docPesquisa = {
+            nome: txtNomePesquisa,
+            data: txtDataPesquisa,
+            imagem: imageUrl,
+            nExcelente: 0,
+            nNeutro: 0,
+            nBom: 0,
+            nRuim: 0,
+            nPessimo: 0
+          };
+          //MODAL PARA NOTIFICACAO
+          try {
+            addDoc(collection(db, 'pesquisas'), docPesquisa).then(() => {
+                console.log("TA DRAWER")
+                props.navigation.navigate('Drawer');
+              }).catch((erro) => {
+                console.log("TA ERRO")
+                console.log("Erro:", erro);
+              });
+              console.log("TA AQUI")
+          } catch (erro) {
+            console.log('Erro: ', erro);
+          }
+        });
+      } catch (erro) {
+        console.log('Erro: ', erro);
+      }
+      console.log('Sucesso!!!');
+    })
+    .catch((error) => {
+      console.log('Erro: ', error);
+    });  
+  }
+
 
   return (
-    <View style={estilos.view}>
+    <View style={[estilos.view, {width: "100%", alignItems: "center"}]}>
       <View style={estilos.cNome}>
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
@@ -125,13 +153,14 @@ const NovaPesquisa = (props) => {
         {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
         <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
       </View>
+      <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>
 
       <View style={estilos.cBotao2}>
         <Button title="CADASTRAR" onPress={validarCampos} />
       </View>
     </View>
   );
-};
+}
 
 const estilos = StyleSheet.create({
   view: {
@@ -167,7 +196,6 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     marginTop: 20,
     width: 500,
-    marginHorizontal: 203
   },
   cData: {
     position: 'absolute',
@@ -179,14 +207,17 @@ const estilos = StyleSheet.create({
     position: 'absolute',
     marginTop: 270,
     width: 500,
-    marginHorizontal: 203
+    marginHorizontal: 203,
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: "28px"
   },
   cBotao2: {
+    backgroundColor: "#37BD6D",
     position: 'absolute',
     marginTop: 440,
-    height: 500,
-    width: 500,
-    marginHorizontal: 203
+    width: "80%",
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: "28px"
   },
   textInput: {
     fontSize: 28,

@@ -6,7 +6,7 @@ import Botao from '../components/Botao';
 import Botao2 from '../components/Botao2';
 import Botao3 from '../components/Botao3';
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth_mod } from '../config/firebase';
+import { auth } from '../config/firebase';
 import { useUsuario } from '../context/UserContext'
 
 const Login = props => {
@@ -19,14 +19,12 @@ const Login = props => {
   const entrarHome = () => {
     var valida = validator.isEmail(txtEmail);
     if (valida) {
-      signInWithEmailAndPassword(auth_mod, txtEmail, txtSenha).then((userCredentials) => {
+      signInWithEmailAndPassword(auth, txtEmail, txtSenha).then((userCredentials) => {
         setUsuario(userCredentials)
-        console.log(userCredentials)
         setEmail('')
         setSenha('')
         props.navigation.navigate('Drawer');
       }).catch((erro) => {
-        console.log(erro)
         switch (erro.code) {
           case "auth/user-not-found":
             setShowError("Email não cadastrado!")

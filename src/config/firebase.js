@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getAuth} from "firebase/auth";
-
-//require("dotenv").config();
+import { initializeFirestore } from "firebase/firestore"
+import { getStorage, ref} from "firebase/storage"
 
 
 const firebaseConfig = {
@@ -13,7 +13,11 @@ const firebaseConfig = {
   appId: "1:958910281035:web:8eb6517b1e0e118d0964ce"
 };
 
-const app = initializeApp(firebaseConfig);
-const auth_mod = getAuth(app);
 
-export { auth_mod, app}
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = initializeFirestore(app, { experimentalForceLongPolling: true });
+const storage = getStorage(app);
+const storageRef = ref(storage);
+
+export { auth, app, db, storage, storageRef }

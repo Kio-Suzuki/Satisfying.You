@@ -4,8 +4,7 @@ import Botao from '../components/Botao'
 import validator from 'validator'
 import { Button } from 'react-native-elements'
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import { auth_mod } from '../config/firebase'
-import { set } from 'date-fns'
+import { auth } from '../config/firebase'
 
 
 const NovaConta = (props) => {
@@ -15,14 +14,12 @@ const NovaConta = (props) => {
   const [txtConfirmaSenha, setConfirmaSenha] = useState('')
 
   const cadastrarUsuario = () => {
-    // Correct the logic to set validaSenha to true if passwords match, false otherwise
     var validaSenha = validator.equals(txtSenha, txtConfirmaSenha) ? true : "As senhas não coincidem.";
     if (validaSenha === true) {
-      createUserWithEmailAndPassword(auth_mod, txtEmail, txtSenha).then(() => {
+      createUserWithEmailAndPassword(auth, txtEmail, txtSenha).then(() => {
         setShowError(false)
         props.navigation.navigate('Login');
       }).catch((erro) => {
-        console.log(erro.code)
         switch (erro.code) {
           case "auth/weak-password":
             setShowError("Senha Fraca! Deve conter mais que 6 dígitos")
@@ -61,7 +58,6 @@ const NovaConta = (props) => {
       <View style={[estilos.cBotao, {width: "70%"}]}>
         <Botao texto="CADASTRAR" funcao={cadastrarUsuario} />
       </View>
-
     </View>
   )
 }
