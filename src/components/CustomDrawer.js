@@ -1,12 +1,18 @@
 import { DrawerContentScrollView, DrawerItem, DrawerItemList } from '@react-navigation/drawer'
 import { View, Text } from 'react-native'
+import { signOut } from 'firebase/auth'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import { auth } from '../config/firebase'
+import { useUsuario } from '../context/UserContext'
 
 const CustomDrawer = (props) => {
+
+    const { setUsuario } = useUsuario();
 
     const logout = () => {
         signOut(auth).then(() => {
             props.navigation.popToTop();
+            setUsuario(null)
           }).catch((error) => {
             console.log(error)
           });
@@ -25,7 +31,7 @@ const CustomDrawer = (props) => {
             <View style={{ paddingTop: 340 }}>
                 <DrawerItem 
                 labelStyle={{fontSize: 28, color: '#FFFFFF', fontFamily: 'AveriaLibre-Regular'}} 
-                label='Sair' onPress={() => {logout}} 
+                label='Sair' onPress={logout} 
                 icon={() => <Icon name="logout" size={40} color="#FFFFFF"/>}/>
             </View>
         

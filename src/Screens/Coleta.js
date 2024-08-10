@@ -4,11 +4,9 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 const Coleta = (props) => {
 
   const goToAgradecimentos = () => {
+    
     props.navigation.navigate('Agradecimento')
   }
-
-
-
 
   const voltar = () => {
     props.navigation.navigate('AcoesPesquisa')

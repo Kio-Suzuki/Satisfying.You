@@ -3,23 +3,37 @@ import { useState, useEffect } from 'react';
 import Botao from '../components/Botao';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
-import { pesquisasCollection } from '../services/firestoreConfig';
+import { pesquisasCollection } from '../config/firebase.js';
 import { query, onSnapshot } from 'firebase/firestore';
+import Card  from '../components/Card.js';
 
 const Home = (props) => {
+  const [txtPesquisa, setPesquisa] = useState('');
+  const [pesquisas, setPesquisas] = useState([]);
+  const userID = userCredentrials.user.uid;
 
- 
+  useEffect(() => {
+    const pesq = query(pesquisasCollection, where('userID', '==', userID));
+    const unsubscribe = onSnapshot(pesq, (snap) => {
+      const dados = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPesquisas(dados);
+    });
+
+    return () => unsubscribe();
+  }, []);
+  
 
   const itemPesquisa = ({ item }) => {
     return (
-      <TouchableOpacity onPress={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}>
-        <View>
-        </View>
-      </TouchableOpacity>
+      <Card
+
+        imageUrl={item.imageUrl}
+        titulo={item.titulo}
+        data={item.data}
+        funcao={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}
+      />
     );
   };
-
-  const [txtPesquisa, setPesquisa] = useState('');
 
   const novaPesquisa = () => {
     props.navigation.navigate('NovaPesquisa');
@@ -27,29 +41,23 @@ const Home = (props) => {
 
   return (
     <View style={estilos.view}>
-      <View>
-        <TextInput
-          style={estilos.textInput}
-          value={txtPesquisa}
-          onChangeText={setPesquisa}
-          inlineImageLeft="search"
-          inlineImagePadding={5}
-          placeholder="Insira o termo de busca..."
-        />
-      </View>
-
-      <View style={estilos.cards}>
-        <FlatList
-
-        />
-      </View>
-
-      <View style={estilos.cBotao1}>
-        <Botao texto='NOVA PESQUISA' funcao={novaPesquisa} />
-      </View>
+      <TextInput
+        style={estilos.textInput}
+        placeholder="Pesquisar"
+        value={txtPesquisa}
+        onChangeText={setPesquisa}
+      />
+      <FlatList
+        horizontal
+        data={pesquisas}
+        renderItem={itemPesquisa}
+        keyExtractor={item => item.id}
+      />
+      <Botao onPress={novaPesquisa} title="Nova Pesquisa" />
     </View>
   );
 };
+
 
 const estilos = StyleSheet.create({
   view: {
