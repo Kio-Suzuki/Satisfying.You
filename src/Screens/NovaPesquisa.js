@@ -6,10 +6,10 @@ import validator from 'validator';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc, setDoc, pesquisasCollection } from 'firebase/firestore'
-import { storageRef, db, storage} from '../config/firebase';
+import { addDoc, setDoc,  } from 'firebase/firestore'
+import { storageRef, db, storage, pesquisasCollection} from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-
+import { useUsuario } from '../context/UserContext'
 
 const NovaPesquisa = (props) => {
   const [showError, setShowError] = useState(0);
@@ -17,6 +17,7 @@ const NovaPesquisa = (props) => {
   const [txtDataPesquisa, setDataPesquisa] = useState('');
   const [urlFoto, setUrlFoto] = useState('');
   const [foto, setFoto] = useState();
+  const { uid } = useUsuario();
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
 
@@ -97,36 +98,35 @@ const NovaPesquisa = (props) => {
       try {
         getDownloadURL(uploadRes.ref).then((imageUrl) => {
           const docPesquisa = {
-            nome: txtNomePesquisa,
+            nome: txtNomePesquisa.toUpperCase(),
             data: txtDataPesquisa,
             imagem: imageUrl,
             nExcelente: 0,
             nNeutro: 0,
             nBom: 0,
             nRuim: 0,
-            nPessimo: 0
+            nPessimo: 0,
+            userId: uid
           };
           try {
-            docPesquisa
             addDoc(pesquisasCollection, docPesquisa).then(() => {
-                console.log("TA DRAWER")
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
                 console.log("TA ERRO")
-                console.log("Erro:", erro);
+                console.log("Erro no addDoc:", erro);
               });
               console.log("TA AQUI")
           } catch (erro) {
-            console.log('Erro: ', erro);
+            console.log('Erro talvez do addDoc: ', erro);
           }
         });
       } catch (erro) {
-        console.log('Erro: ', erro);
+        console.log('Erro do getDownload: ', erro);
       }
       console.log('Sucesso!!!');
     })
     .catch((error) => {
-      console.log('Erro: ', error);
+      console.log('Erro de tudo: ', error);
     });  
   }
   
@@ -153,7 +153,6 @@ const NovaPesquisa = (props) => {
         {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
         <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
       </View>
-      <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>
 
       <View style={estilos.cBotao2}>
         <Button title="CADASTRAR" onPress={validarCampos} />

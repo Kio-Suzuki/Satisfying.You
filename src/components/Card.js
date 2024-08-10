@@ -6,7 +6,7 @@ const Card = ({ imageUrl, titulo, data, funcao }) => {
   return (
     <TouchableOpacity style={estilo.card} onPress={funcao}>
       <Image source={{ uri: imageUrl }} style={estilo.image} />
-      <Text style={estilo.titutoCard}>{titulo}</Text>
+        <Text style={estilo.titutoCard}>{titulo}</Text>
         <Text style={estilo.dataCard}>{data}</Text>
     </TouchableOpacity>
   );
@@ -16,10 +16,11 @@ const Card = ({ imageUrl, titulo, data, funcao }) => {
   card: {
     backgroundColor: '#FFFFFF',
     borderRadius: 10,
-    width: 310,
-    height: 260,
+    width: 370,
+    height: 350,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    marginRight: 40
   },
 
   titutoCard: {
@@ -35,8 +36,8 @@ const Card = ({ imageUrl, titulo, data, funcao }) => {
   },
 
   image: {
-    width: 150,
-    height: 150,
+    width: 200,
+    height: 200,
   },
 })
 
