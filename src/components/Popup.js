@@ -1,12 +1,12 @@
 import { View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-const Popup = ({ title = 'Tem certeza de apagar essa pesquisa?', visible = false, onClose }) => {
+const Popup = ({ title = 'Tem certeza de apagar essa pesquisa?', visible = false, onClose, onPress }) => {
   return (
     <View style={styles.container} visible={visible}>
       <View style={styles.pop}>
         <Text style={styles.texto}>{title}</Text>
         <View style={styles.botoes}>
-          <TouchableOpacity style={styles.botao} onPress={onClose}>
+          <TouchableOpacity style={styles.botao} onPress={onPress}>
             <Text style={styles.textoBotao}>SIM</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.botao, styles.botaoCancelar]} onPress={onClose}>
