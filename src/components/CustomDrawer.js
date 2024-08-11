@@ -4,7 +4,6 @@ import { signOut } from 'firebase/auth'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { useUsuario } from '../context/UserContext'
 import { auth } from '../config/firebase';
-import { signOut } from 'firebase/auth';
 
 const CustomDrawer = (props) => {
 

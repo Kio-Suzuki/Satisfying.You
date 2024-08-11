@@ -4,33 +4,44 @@ import Botao from '../components/Botao';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Text } from 'react-native-elements';
 import { pesquisasCollection } from '../config/firebase.js';
-import { query, onSnapshot } from 'firebase/firestore';
+import { query, onSnapshot, where } from 'firebase/firestore';
 import { useUsuario } from '../context/UserContext'
 import Card  from '../components/Card.js';
 
 const Home = (props) => {
   const [txtPesquisa, setPesquisa] = useState('');
+  const [filtrado, setFiltrado] = useState('');
   const [pesquisas, setPesquisas] = useState([]);
-  const userID = userCredentrials.user.uid;
-
   const { uid } = useUsuario();
 
+
   useEffect(() => {
-    const pesq = query(pesquisasCollection, where('userID', '==', userID));
+    const pesq = query(pesquisasCollection, where('userId', '==', uid));
     const unsubscribe = onSnapshot(pesq, (snap) => {
       const dados = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setPesquisas(dados);
+      setFiltrado(dados);
     });
 
     return () => unsubscribe();
   }, []);
 
+
+  useEffect(() =>{
+    if(txtPesquisa== ''){
+      setFiltrado(pesquisas)
+    }else{
+      const pesquisado = txtPesquisa.toLowerCase();
+      const pesquisaFiltrada = pesquisas.filter(item => item.nome.toLowerCase().includes(pesquisado))
+      setFiltrado(pesquisaFiltrada)
+    }
+  }, [txtPesquisa, pesquisas])
+
   const itemPesquisa = ({ item }) => {
     return (
       <Card
-
-        imageUrl={item.imageUrl}
-        titulo={item.titulo}
+        imageUrl={item.imagem}
+        titulo={item.nome}
         data={item.data}
         funcao={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}
       />
@@ -49,13 +60,15 @@ const Home = (props) => {
         value={txtPesquisa}
         onChangeText={setPesquisa}
       />
-      <FlatList
-        horizontal
-        data={pesquisas}
-        renderItem={itemPesquisa}
-        keyExtractor={item => item.id}
-      />
-      <Botao onPress={novaPesquisa} title="Nova Pesquisa" />
+      <View style={{marginTop: 60}}>
+        <FlatList
+          horizontal
+          data={filtrado}
+          renderItem={itemPesquisa}
+          keyExtractor={item => item.id}
+          />
+      </View>
+      <Botao style={estilos.cBotao1} funcao={novaPesquisa} texto="Nova Pesquisa" />
     </View>
   );
 };
@@ -66,7 +79,9 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    padding: 30
+    padding: 30,
+    justifyContent: 'space-between',
+
   },
 
   cards: {
@@ -88,7 +103,7 @@ const estilos = StyleSheet.create({
   },
 
   cBotao1: {
-    marginTop: 20
+    marginTop: 20,
   },
 
   textInput: {

@@ -6,10 +6,10 @@ import validator from 'validator';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc, setDoc, pesquisasCollection } from 'firebase/firestore'
-import { storageRef, db, storage} from '../config/firebase';
+import { addDoc, setDoc,  } from 'firebase/firestore'
+import { storageRef, db, storage, pesquisasCollection} from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-
+import { useUsuario } from '../context/UserContext'
 
 const NovaPesquisa = (props) => {
   const [showError, setShowError] = useState(0);
@@ -17,9 +17,9 @@ const NovaPesquisa = (props) => {
   const [txtDataPesquisa, setDataPesquisa] = useState('');
   const [urlFoto, setUrlFoto] = useState('');
   const [foto, setFoto] = useState();
+  const { uid } = useUsuario();
 
   const regData = /^\d{2}\/\d{2}\/\d{4}$/;
-
   const buscaImagem = () => {
     if (Platform.OS === 'ios') {
       ActionSheetIOS.showActionSheetWithOptions(
@@ -75,7 +75,7 @@ const NovaPesquisa = (props) => {
     const validaNomePesquisa = !validator.isEmpty(txtNomePesquisa);
     const validaDataPesquisa = regData.test(txtDataPesquisa);
 
-    if (validaNomePesquisa && validaDataPesquisa) {
+    if (validaNomePesquisa && validaDataPesquisa && foto) {
       addPesquisa();
     } else if (!validaNomePesquisa && validaDataPesquisa) {
       setShowError(1);
@@ -88,7 +88,8 @@ const NovaPesquisa = (props) => {
 
 
   const addPesquisa = async () => {
-    const imageRef = ref(storage, `${new Date().toISOString()}_${foto.name}`);
+    const nomeImagem = `${new Date().toISOString()}_${foto.name}`
+    const imageRef = ref(storage, nomeImagem);
     const file = await fetch(urlFoto);
     const blob = await file.blob();
 
@@ -97,67 +98,68 @@ const NovaPesquisa = (props) => {
       try {
         getDownloadURL(uploadRes.ref).then((imageUrl) => {
           const docPesquisa = {
-            nome: txtNomePesquisa,
+            nome: txtNomePesquisa.toUpperCase(),
             data: txtDataPesquisa,
             imagem: imageUrl,
+            imagemRef: nomeImagem,
             nExcelente: 0,
             nNeutro: 0,
             nBom: 0,
             nRuim: 0,
-            nPessimo: 0
+            nPessimo: 0,
+            userId: uid
           };
           try {
-            docPesquisa
             addDoc(pesquisasCollection, docPesquisa).then(() => {
-                console.log("TA DRAWER")
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
                 console.log("TA ERRO")
-                console.log("Erro:", erro);
+                console.log("Erro no addDoc:", erro);
               });
               console.log("TA AQUI")
           } catch (erro) {
-            console.log('Erro: ', erro);
+            console.log('Erro talvez do addDoc: ', erro);
           }
         });
       } catch (erro) {
-        console.log('Erro: ', erro);
+        console.log('Erro do getDownload: ', erro);
       }
       console.log('Sucesso!!!');
     })
     .catch((error) => {
-      console.log('Erro: ', error);
+      console.log('Erro de tudo: ', error);
     });  
   }
   
 
   return (
-    <View style={[estilos.view, {width: "100%", alignItems: "center"}]}>
-      <View style={estilos.cNome}>
-        <Text style={estilos.texto}>Nome</Text>
-        <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
-        {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
-      </View>
-
-      <View style={estilos.cData}>
-        <Text style={estilos.texto}>Data</Text>
-        <View>
-          <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
-          <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+    <View style={estilos.view}>
+      <View style={estilos.cForm}>
+        <View style={estilos.cNome}>
+          <Text style={estilos.texto}>Nome</Text>
+          <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
+          {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
         </View>
-        {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
-      </View>
 
-      <View style={estilos.cBotao1}>
-        <Text style={estilos.texto}>Imagem</Text>
-        {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
-        <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
-      </View>
-      <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>
+        <View style={estilos.cData}>
+          <Text style={estilos.texto}>Data</Text>
+          <View>
+            <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
+            <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
+          </View>
+          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+        </View>
 
+        <View style={estilos.cBotao1}>
+          <Text style={estilos.texto}>Imagem</Text>
+          {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
+          <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
+          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+        </View>
+      </View>
       <View style={estilos.cBotao2}>
-        <Button title="CADASTRAR" onPress={validarCampos} />
-      </View>
+        <Button style={{ backgroundColor: '#37BD6D' }} title="CADASTRAR" onPress={validarCampos} />
+      </View>      
     </View>
   );
 }
@@ -168,6 +170,15 @@ const estilos = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     paddingHorizontal: 203,
+    width: "100%", 
+    alignItems: "center", 
+    justifyContent: 'space-between',
+    paddingBottom: 60
+  },
+  cForm:{
+    width: '90%',
+    padding: 0,
+    alignItems: 'center',
   },
   cTitulo: {
     flexDirection: 'row',
@@ -194,28 +205,28 @@ const estilos = StyleSheet.create({
   },
   cNome: {
     position: 'absolute',
+    width: '100%',
     marginTop: 20,
-    width: 500,
   },
   cData: {
     position: 'absolute',
     marginTop: 150,
-    width: 500,
+    width: '100%',
     marginHorizontal: 203
   },
   cBotao1: {
+    size: '200px',
     position: 'absolute',
     marginTop: 270,
-    width: 500,
+    width: '100%',
     marginHorizontal: 203,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },
   cBotao2: {
     backgroundColor: "#37BD6D",
-    position: 'absolute',
-    marginTop: 440,
-    width: "80%",
+    width: "90%",
+    height: 40,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },
