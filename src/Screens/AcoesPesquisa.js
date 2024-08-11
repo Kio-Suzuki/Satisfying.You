@@ -1,19 +1,30 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import { usePesquisa } from '../context/PesquisaContext'
+import { useLayoutEffect } from 'react';
+import { useNavigation } from '@react-navigation/native';
 
 const AcoesPesquisa = (props) => {
-  const { pesquisa } = props.route.params; // Recebe os dados da pesquisa
+  
+  const { pesquisa } = usePesquisa(); // Recebe os dados da pesquisa
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: pesquisa.nome,
+    });
+  }, [navigation]);
 
   const modificar = () => {
-    props.navigation.navigate('ModificarPesquisa', { pesquisa });
+    props.navigation.navigate('ModificarPesquisa');
   };
 
   const coletar = () => {
-    props.navigation.navigate('Coleta', { pesquisa });
+    props.navigation.navigate('Coleta');
   };
 
   const relatorio = () => {
-    props.navigation.navigate('Relatorio', { pesquisa });
+    props.navigation.navigate('Relatorio');
   };
 
   return (

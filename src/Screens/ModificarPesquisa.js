@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Alert, ActionSheetIOS } from 'react-native'
-import { useState } from 'react'
+import { useState, useLayoutEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
 import Popup from '../components/Popup'
@@ -9,9 +9,19 @@ import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
 import { doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db, storage} from '../config/firebase';
 import { ref, deleteObject, uploadBytes, getDownloadURL} from "firebase/storage";
+import { usePesquisa } from '../context/PesquisaContext'
+import { useNavigation } from '@react-navigation/native';
+
 const Modificar = (props) => {
 
-  const { pesquisa } = props.route.params
+  const { pesquisa } = usePesquisa();
+  const navigation = useNavigation();
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: pesquisa.nome,
+    });
+  }, [navigation]);
   
   const [txtNomePesquisa, setNomePesquisa] = useState(pesquisa.nome)
   const [txtDataPesquisa, setDataPesquisa] = useState(pesquisa.data)
@@ -198,7 +208,7 @@ const Modificar = (props) => {
         </TouchableOpacity>
       </View>
 
-      { isPopupVisible && <Popup title="Confirmar Exclusão" text="Deseja realmente excluir essa pesquisa?" onClose={() => setIsPopupVisible(false)} onPress={()=>{ deletePesquisa }} /> }
+      { isPopupVisible && <Popup title="Confirmar Exclusão" text="Deseja realmente excluir essa pesquisa?" onClose={() => setIsPopupVisible(false)} onPress={deletePesquisa} /> }
     </View>
   )
 }

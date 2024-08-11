@@ -7,11 +7,20 @@ import { pesquisasCollection } from '../config/firebase.js';
 import { query, onSnapshot, where } from 'firebase/firestore';
 import { useUsuario } from '../context/UserContext'
 import Card  from '../components/Card.js';
+import { usePesquisa } from '../context/PesquisaContext'
 
 const Home = (props) => {
-  const [txtPesquisa, setPesquisa] = useState('');
-  const [filtrado, setFiltrado] = useState('');
-  const [pesquisas, setPesquisas] = useState([]);
+  
+  const { 
+    txtPesquisa, 
+    setTxtPesquisa, 
+    filtrado, 
+    setFiltrado, 
+    pesquisas, 
+    setPesquisas,
+    setPesquisa
+  } = usePesquisa();
+
   const { uid } = useUsuario();
 
 
@@ -43,7 +52,7 @@ const Home = (props) => {
         imageUrl={item.imagem}
         titulo={item.nome}
         data={item.data}
-        funcao={() => props.navigation.navigate('AcoesPesquisa', { pesquisa: item })}
+        funcao={() => { setPesquisa(item); props.navigation.navigate('AcoesPesquisa')}}
       />
     );
   };
@@ -58,7 +67,7 @@ const Home = (props) => {
         style={estilos.textInput}
         placeholder="Pesquisar"
         value={txtPesquisa}
-        onChangeText={setPesquisa}
+        onChangeText={setTxtPesquisa}
       />
       <View style={{marginTop: 60}}>
         <FlatList

@@ -2,17 +2,18 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { db } from '../config/firebase';
 import { updateDoc, doc } from 'firebase/firestore';
+import { usePesquisa } from '../context/PesquisaContext'
 
 const Coleta = (props) => {
 
 
-  const { pesquisa } = props.route.params;
+  const { pesquisa } = usePesquisa();
   const txtNomePesquisa = pesquisa.nome;
 
 
   const goToAgradecimentos = (campo) => {
     pesquisa[campo] = pesquisa[campo] + 1;
-    props.navigation.navigate('Agradecimento', { pesquisa });
+    props.navigation.navigate('Agradecimento');
     console.log(pesquisa[campo])
   };
 

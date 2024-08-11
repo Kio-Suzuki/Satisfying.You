@@ -3,11 +3,8 @@ import React from 'react';
 
 const Agradecimento = (props) => {
 
-
-  const { pesquisa } = props.route.params; 
-
   setTimeout(() => {
-    props.navigation.navigate('Coleta', { pesquisa });
+    props.navigation.navigate('Coleta');
   }, 3000);
 
   return (
