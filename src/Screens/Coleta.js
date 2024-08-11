@@ -14,7 +14,6 @@ const Coleta = (props) => {
   const goToAgradecimentos = (campo) => {
     pesquisa[campo] = pesquisa[campo] + 1;
     props.navigation.navigate('Agradecimento');
-    console.log(pesquisa[campo])
   };
 
 

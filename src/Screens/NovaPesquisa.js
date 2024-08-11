@@ -1,18 +1,17 @@
 // NovaPesquisa.js
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Image, Alert, Platform, ActionSheetIOS } from 'react-native';
-import Botao4 from '../components/Botao4';
+import { View, Text, TextInput, StyleSheet, Image, Alert, Platform, ActionSheetIOS, TouchableOpacity } from 'react-native';
 import validator from 'validator';
-import { Button } from 'react-native-elements';
+import Botao from '../components/Botao'
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker';
-import { addDoc, setDoc,  } from 'firebase/firestore'
-import { storageRef, db, storage, pesquisasCollection} from '../config/firebase';
+import { addDoc } from 'firebase/firestore'
+import { storage, pesquisasCollection} from '../config/firebase';
 import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { useUsuario } from '../context/UserContext'
 
 const NovaPesquisa = (props) => {
-  const [showError, setShowError] = useState(0);
+  const [errors, setErrors] = useState({});
   const [txtNomePesquisa, setNomePesquisa] = useState('');
   const [txtDataPesquisa, setDataPesquisa] = useState('');
   const [urlFoto, setUrlFoto] = useState('');
@@ -72,17 +71,20 @@ const NovaPesquisa = (props) => {
   };
 
   const validarCampos = () => {
-    const validaNomePesquisa = !validator.isEmpty(txtNomePesquisa);
-    const validaDataPesquisa = regData.test(txtDataPesquisa);
-
-    if (validaNomePesquisa && validaDataPesquisa && foto) {
-      addPesquisa();
-    } else if (!validaNomePesquisa && validaDataPesquisa) {
-      setShowError(1);
-    } else if (validaNomePesquisa && !validaDataPesquisa) {
-      setShowError(2);
+    let errors = {};
+    if (validator.isEmpty(txtNomePesquisa)) {
+      errors.nome = 'Preencha o nome da pesquisa';
+    }
+    if (!regData.test(txtDataPesquisa)) {
+      errors.data = 'Preencha a data no formato DD/MM/YYYY';
+    }
+    if (!foto) {
+      errors.foto = 'Insira a imagem';
+    }
+    if (Object.keys(errors).length > 0) {
+      setErrors(errors);
     } else {
-      setShowError(3);
+      addPesquisa();
     }
   };
 
@@ -135,31 +137,34 @@ const NovaPesquisa = (props) => {
   return (
     <View style={estilos.view}>
       <View style={estilos.cForm}>
-        <View style={estilos.cNome}>
+        <View style={estilos.nomeInput}>
           <Text style={estilos.texto}>Nome</Text>
           <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
-          {(showError === 1 || showError === 3) && <Text style={estilos.erro}>Preencha o nome da pesquisa</Text>}
+          {errors.nome && <Text style={estilos.erro}>{errors.nome}</Text>}
         </View>
 
-        <View style={estilos.cData}>
+        <View style={estilos.nomeInput}>
           <Text style={estilos.texto}>Data</Text>
           <View>
             <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
             <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
           </View>
-          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+          {errors.data && <Text style={estilos.erro}>{errors.data}</Text>}
         </View>
 
-        <View style={estilos.cBotao1}>
+        <View style={estilos.selecaoImagem}>
           <Text style={estilos.texto}>Imagem</Text>
-          {urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 'auto', width: '100%', position: 'absolute' }} /> : null}
-          <Botao4 texto="Câmera/Galeria de imagens" funcao={buscaImagem} />
-          {(showError === 2 || showError === 3) && <Text style={estilos.erro}>Preencha a data no formato DD/MM/YYYY</Text>}
+          <TouchableOpacity style={estilos.botaoImagem} onPress={buscaImagem}>
+            { urlFoto ? <Image source={{ uri: urlFoto }} style={{ height: 133, width: 133}}></Image> : null}
+            { !urlFoto ? <Text style={estilos.textoSelecaoImagem}> Câmera/Galeria de imagens</Text>:null}
+          </TouchableOpacity>
+          {errors.foto && <Text style={[estilos.erro, { marginTop: '38%' }]}>{errors.foto}</Text>}
         </View>
+
       </View>
-      <View style={estilos.cBotao2}>
-        <Button style={{ backgroundColor: '#37BD6D' }} title="CADASTRAR" onPress={validarCampos} />
-      </View>      
+      <View style={estilos.containerSalvar}>
+        <Botao texto="CADASTRAR" funcao={validarCampos}/>
+      </View>  
     </View>
   );
 }
@@ -169,16 +174,37 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203,
     width: "100%", 
+    height: '100%',
     alignItems: "center", 
-    justifyContent: 'space-between',
-    paddingBottom: 60
+    justifyContent: 'space-around',
   },
   cForm:{
-    width: '90%',
+    width: '70%',
+    height: '70%',
+    gap: 35,
     padding: 0,
+    alignItems: 'start',
+    justifyContent: 'space-between'
+  },
+  selecaoImagem: {
+    width: '50%'
+  },
+  botaoImagem: {
+    justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    width: '100%',
+    height: '50%'
+  },
+  textoSelecaoImagem: {
+    color: '#939393',
+    fontSize: 23,
+    fontFamily: 'AveriaLibre-Regular'
+  },
+  containerSalvar: {
+    width: '70%',
+    marginBottom: 5
   },
   cTitulo: {
     flexDirection: 'row',
@@ -195,38 +221,31 @@ const estilos = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
-    marginTop: 2
+    marginTop: 2,
+    marginBottom: 10
   },
   erro: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 18,
+    position: 'absolute',
     color: '#FD7979',
-    marginTop: 5,
+    marginTop: '11%',
   },
-  cNome: {
-    position: 'absolute',
+  nomeInput:{
     width: '100%',
-    marginTop: 20,
-  },
-  cData: {
-    position: 'absolute',
-    marginTop: 150,
-    width: '100%',
-    marginHorizontal: 203
   },
   cBotao1: {
     size: '200px',
     position: 'absolute',
-    marginTop: 270,
     width: '100%',
-    marginHorizontal: 203,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },
   cBotao2: {
-    backgroundColor: "#37BD6D",
+    borderWidth: 5,
+    backgroundColor: "#49B976",
     width: "90%",
-    height: 40,
+    height: 50,
     fontFamily: 'AveriaLibre-Regular',
     fontSize: "28px"
   },

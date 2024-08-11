@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Alert, ActionSheetIOS } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Platform, Alert, ActionSheetIOS, Image } from 'react-native'
 import { useState, useLayoutEffect } from 'react'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import Botao from '../components/Botao'
@@ -193,7 +193,7 @@ const Modificar = (props) => {
 
         <Text style={estilos.texto}>Imagem</Text>
         <TouchableOpacity style={estilos.botaoImagem} onPress={buscaImagem}>
-          <Icon name="celebration" size={80} color={'#C60EB3'}/>
+          <Image source={{ uri: urlFoto }} style={{ height: 110, width: 110}}></Image>
         </TouchableOpacity>
       </View>
 
@@ -248,11 +248,17 @@ const estilos = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20
   },
+  erro: {
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: 18,
+    color: '#FD7979',
+    marginTop: 5,
+  },
 
   botaoImagem: {
     backgroundColor: '#FFFFFF',
-    height: 94,
-    width: 335,
+    height: 110,
+    width: 350,
     marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center'
