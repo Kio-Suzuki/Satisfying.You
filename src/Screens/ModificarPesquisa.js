@@ -24,35 +24,37 @@ const Modificar = (props) => {
   return (
     <View style={estilos.view}>
 
+    <View style={estilos.cNome}>
+      <Text style={estilos.texto}>Nome</Text>
+      <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa} />
+  
+      <Text style={estilos.texto}>Data</Text>
       <View>
-        <Text style={estilos.texto}>Nome</Text>
-        <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa}/>
-
-        <Text style={estilos.texto}>Data</Text>        
-        <View>
-          <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
-          <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
-        </View>
-
-        <Text style={estilos.texto}>Imagem</Text>
-        <TouchableOpacity style={estilos.botaoImagem} onPress={acoes}>
-          <Icon name="celebration" size={80} color={'#C60EB3'}/>
-        </TouchableOpacity>
+        <Icon style={estilos.calendario} name="calendar-month" size={60} color="#AAAAAA" />
+        <TextInput style={estilos.textInput} value={txtDataPesquisa} onChangeText={setDataPesquisa} />
       </View>
-
-      <View style={estilos.containerSalvar}>
-        <Botao texto="SALVAR" funcao={acoes}/>
-      </View>
-
-      <View style={estilos.containerApagar}>
-        <TouchableOpacity style={estilos.botaoApagar} onPress={excluir}>
-          <Icon name="delete" size={70} color={'#FFFFFF'}/>
-          <Text style={estilos.textApagar}>Apagar</Text>
-        </TouchableOpacity>
-      </View>
-
-      { isPopupVisible && <Popup title="Confirmar Exclusão" text="Deseja realmente excluir essa pesquisa?" onClose={() => setIsPopupVisible(false)} /> }
+  
+      <Text style={estilos.texto}>Imagem</Text>
+      <TouchableOpacity style={estilos.botaoImagem} onPress={acoes}>
+        <Icon name="celebration" size={80} color={'#C60EB3'}/>
+      </TouchableOpacity>
     </View>
+  
+    <View style={estilos.cBotao1}>
+      <Botao texto="SALVAR" funcao={acoes}/>
+    </View>
+  
+    <View style={estilos.cBotao2}>
+      <TouchableOpacity style={estilos.botaoApagar} onPress={excluir}>
+        <Icon name="delete" size={70} color={'#FFFFFF'}/>
+        <Text style={estilos.textApagar}>Apagar</Text>
+      </TouchableOpacity>
+    </View>
+  
+    {isPopupVisible && <Popup title="Confirmar Exclusão" text="Deseja realmente excluir essa pesquisa?" onClose={() => setIsPopupVisible(false)} />}
+  
+  </View>
+  
   )
 }
 
@@ -61,49 +63,51 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203
+    paddingHorizontal: 203,
   },
-
+  
   texto: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
     color: '#FFFFFF',
-    marginTop: 25
-
+    marginTop: 2, 
   },
 
-  containerSalvar: {
-    paddingTop: 20
+  cNome: {
+    position: 'absolute',
+    marginTop: 20,
+    width: 807,
+    marginHorizontal: 203,
   },
 
-  textApagar: {
-    fontFamily: 'AveriaLibre-Regular',
-    fontSize: 20,
-    color: '#FFFFFF',
-  },
-
-  textInput: {
-    fontSize: 28,
-    fontFamily: 'AveriaLibre-Regular',
-    backgroundColor: '#FFFFFF',
-    color: '#3F92C5',
-    justifyContent: 'center',
-    alignItems: 'center',
-    paddingHorizontal: 20
+  cData: {
+    position: 'absolute',
+    marginTop: 150,
+    width: 807,
+    marginHorizontal: 203,
   },
 
   botaoImagem: {
     backgroundColor: '#FFFFFF',
     height: 94,
-    width: 335,
+    width: '100%', 
     marginTop: 10,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
+
+  containerSalvar: {
+    position: 'absolute',
+    marginTop: 440, 
+    width: 807,
+    marginHorizontal: 203,
+  },
+
   botaoApagar: {
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
   },
+
   containerApagar: {
     position: 'absolute',
     bottom: 20,
@@ -112,13 +116,29 @@ const estilos = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20
+    paddingHorizontal: 20,
   },
-  calendario:{
+
+  textApagar: {
+    fontFamily: 'AveriaLibre-Regular',
+    fontSize: 18, 
+    color: '#FFFFFF',
+  },
+
+  textInput: {
+    fontSize: 28,
+    fontFamily: 'AveriaLibre-Regular',
+    backgroundColor: '#FFFFFF',
+    color: '#3F92C5',
+    paddingHorizontal: 20,
+  
+  },
+
+  calendario: {
     position: 'absolute',
     zIndex: 9999,
-    alignSelf: 'flex-end'
-  }
-})
+    alignSelf: 'flex-end',
+  },
+});
 
 export default Modificar

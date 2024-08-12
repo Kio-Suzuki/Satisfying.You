@@ -66,7 +66,8 @@ const estilos = StyleSheet.create({
   cBotao: {
     position: 'absolute',
     marginTop: 320,
-    width: 807,
+    width: '653.44px',
+    height: '50px',
     marginHorizontal: 203
   },
 
