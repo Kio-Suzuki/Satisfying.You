@@ -1,50 +1,99 @@
-import { View, TextInput, StyleSheet } from 'react-native'
-import { useState } from 'react'
-import Botao from '../components/Botao'
-import Card from '../components/Card'
+import { View, TextInput, StyleSheet, FlatList } from 'react-native';
+import { useState, useEffect } from 'react';
+import Botao from '../components/Botao';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Text } from 'react-native-elements';
+import { pesquisasCollection } from '../config/firebase.js';
+import { query, onSnapshot, where } from 'firebase/firestore';
+import { useUsuario } from '../context/UserContext'
+import Card  from '../components/Card.js';
+import { usePesquisa } from '../context/PesquisaContext'
 
 const Home = (props) => {
+  
+  const { 
+    txtPesquisa, 
+    setTxtPesquisa, 
+    filtrado, 
+    setFiltrado, 
+    pesquisas, 
+    setPesquisas,
+    setPesquisa
+  } = usePesquisa();
 
-  const [txtPesquisa, setPesquisa] = useState('')
+  const { uid } = useUsuario();
+
+
+  useEffect(() => {
+    const pesq = query(pesquisasCollection, where('userId', '==', uid));
+    const unsubscribe = onSnapshot(pesq, (snap) => {
+      const dados = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      setPesquisas(dados);
+      setFiltrado(dados);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+
+  useEffect(() =>{
+    if(txtPesquisa== ''){
+      setFiltrado(pesquisas)
+    }else{
+      const pesquisado = txtPesquisa.toLowerCase();
+      const pesquisaFiltrada = pesquisas.filter(item => item.nome.toLowerCase().includes(pesquisado))
+      setFiltrado(pesquisaFiltrada)
+    }
+  }, [txtPesquisa, pesquisas])
+
+  const itemPesquisa = ({ item }) => {
+    return (
+      <Card
+        imageUrl={item.imagem}
+        titulo={item.nome}
+        data={item.data}
+        funcao={() => { setPesquisa(item); props.navigation.navigate('AcoesPesquisa')}}
+      />
+    );
+  };
 
   const novaPesquisa = () => {
-    props.navigation.navigate('NovaPesquisa')
-  }
-
-  const acoesPesquisa = () => {
-    props.navigation.navigate('AcoesPesquisa')
-  }
+    props.navigation.navigate('NovaPesquisa');
+  };
 
   return (
     <View style={estilos.view}>
-
-      <View>
-        <TextInput style={estilos.textInput} value={txtPesquisa} onChangeText={setPesquisa} inlineImageLeft="search" inlineImagePadding={5} placeholder="Insira o termo de busca..."/>
+      <TextInput
+        style={estilos.textInput}
+        placeholder="Pesquisar"
+        value={txtPesquisa}
+        onChangeText={setTxtPesquisa}
+      />
+      <View style={{marginTop: 60}}>
+        <FlatList
+          horizontal
+          data={filtrado}
+          renderItem={itemPesquisa}
+          keyExtractor={item => item.id}
+          />
       </View>
-
-      <View style={estilos.cards}>
-        <Card imageSource="devices" colore="#704141" titulo="SECOMP 2023" data="10/10/2023" funcao={acoesPesquisa}/>
-        <Card imageSource="groups" colore="#383838" titulo="UBUNTU 2022" data="05/06/2022" funcao={acoesPesquisa}/>
-        <Card imageSource="woman" colore="#D71616" titulo="MENINAS CPU" data="01/04/2022" funcao={acoesPesquisa}/>
-      </View>
-      
-      <View style={estilos.cBotao1}>
-        <Botao texto='NOVA PESQUISA' funcao={novaPesquisa}/>
-      </View>
-
+      <Botao style={estilos.cBotao1} funcao={novaPesquisa} texto="NOVA PESQUISA" />
     </View>
-  )
-}
+  );
+};
+
 
 const estilos = StyleSheet.create({
   view: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    padding: 30
+    padding: 30,
+    justifyContent: 'space-between',
+
   },
 
-  cards:{
+  cards: {
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'row',
@@ -63,7 +112,7 @@ const estilos = StyleSheet.create({
   },
 
   cBotao1: {
-    marginTop: 20
+    marginTop: 20,
   },
 
   textInput: {
@@ -74,8 +123,7 @@ const estilos = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 10
-  },
+  }
+});
 
-})
-
-export default Home
+export default Home;

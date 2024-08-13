@@ -2,48 +2,62 @@ import { View, Text, TextInput, StyleSheet } from 'react-native'
 import { useState } from 'react'
 import Botao from '../components/Botao'
 import validator from 'validator'
+import { Button } from 'react-native-elements'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { auth } from '../config/firebase'
+
 
 const NovaConta = (props) => {
-  const [showError, setShowError] = useState(0);
-
-  const login = () => {
-    var validaEmail = validator.isEmail(txtEmail)
-    var validaSenha = validator.equals(txtSenha, txtConfirmaSenha)
-    if (validaEmail && validaSenha) {
-      props.navigation.navigate('Login');
-    } else if (validaEmail === false && validaSenha === true) {
-      setShowError(1);
-    } else if (validaEmail === true && validaSenha === false) {
-      setShowError(2);
-    } else if (validaEmail === false && validaSenha === false) {
-      setShowError(3);
-    }
-  }
+  const [showError, setShowError] = useState()
   const [txtEmail, setEmail] = useState('')
   const [txtSenha, setSenha] = useState('')
   const [txtConfirmaSenha, setConfirmaSenha] = useState('')
 
+  const cadastrarUsuario = () => {
+    var validaSenha = validator.equals(txtSenha, txtConfirmaSenha) ? true : "As senhas não coincidem.";
+    if (validaSenha === true) {
+      createUserWithEmailAndPassword(auth, txtEmail, txtSenha).then(() => {
+        setShowError(false)
+        props.navigation.navigate('Login');
+      }).catch((erro) => {
+        switch (erro.code) {
+          case "auth/weak-password":
+            setShowError("Senha Fraca! Deve conter mais que 6 dígitos")
+            break;
+          case "auth/invalid-email":
+            setShowError("Email inválido!")
+            break;
+          case "auth/email-already-in-use": 
+            setShowError("Email já está sendo usado!")
+            break;
+          default:
+            setShowError("Ocorreu um erro, tente novamente mais tarde!")
+            break;
+        }
+      })
+    } else {
+        setShowError(validaSenha);
+    }
+}
+
   return (
     <View style={estilos.view}>
 
-      <View>
-        <Text style={estilos.texto}>E-mail</Text>
-        <TextInput style={estilos.textInput} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
+      <View style={{width: "70%", marginTop: 40}}>
+        <Text style={[estilos.texto]}>E-mail</Text>
+        <TextInput style={[estilos.textInput]} keyboardType="email-address" value={txtEmail} onChangeText={setEmail} />
 
-        <Text style={estilos.texto}>Senha</Text>
-        <TextInput style={estilos.textInput} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
+        <Text style={[estilos.texto]}>Senha</Text>
+        <TextInput style={[estilos.textInput]} secureTextEntry={true} value={txtSenha} onChangeText={setSenha} />
 
         <Text style={estilos.texto}>Repetir senha</Text>
-        <TextInput style={estilos.textInput} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
-        {showError === 1 ? <Text style={estilos.erro}>E-mail parece ser inválido</Text> : null}
-        {showError === 2 ? <Text style={estilos.erro}>O campo repetir senha difere da senha.</Text> : null}
-        {showError === 3 ? <Text style={estilos.erro}>E-mail parece ser inválido e/ou o campo repetir senha difere da senha.</Text> : null}
+        <TextInput style={[estilos.textInput]} secureTextEntry={true} value={txtConfirmaSenha} onChangeText={setConfirmaSenha} />
+        {showError ? <Text style={[estilos.erro]}> {showError} </Text> : null}
       </View>
 
-      <View style={estilos.cBotao}>
-        <Botao texto="CADASTRAR" funcao={login} />
+      <View style={[estilos.cBotao, {width: "70%"}]}>
+        <Botao texto="CADASTRAR" funcao={cadastrarUsuario} />
       </View>
-
     </View>
   )
 }
@@ -53,7 +67,7 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingHorizontal: 203
+    alignItems: 'center'
   },
 
   cTitulo: {
@@ -83,10 +97,8 @@ const estilos = StyleSheet.create({
     marginTop: 5
   },
   cBotao: {
-    position: 'absolute',
-    marginTop: 420,
-    width: 807,
-    marginHorizontal: 203
+    marginTop: 490,
+    position: "absolute"
   },
 
   textInput: {
@@ -96,8 +108,8 @@ const estilos = StyleSheet.create({
     color: '#3F92C5',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20
-  }
+  },
+
 })
 
 export default NovaConta

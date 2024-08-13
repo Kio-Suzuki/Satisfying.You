@@ -30,3 +30,7 @@ const estilo = StyleSheet.create({
 })
 
 export default Botao4
+
+
+
+

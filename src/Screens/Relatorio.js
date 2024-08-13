@@ -1,13 +1,33 @@
 import { View, Text, StyleSheet, Image } from 'react-native'
+import { BarChart, PieChart} from "react-native-gifted-charts";
+import { usePesquisa } from '../context/PesquisaContext'
 
 const Relatorio = () => {
+
+  const { pesquisa } = usePesquisa();
+
+  const data=[
+    {value:pesquisa.nExcelente, color: '#F1CE7E', text: 'Excelente'}, 
+    {value:pesquisa.nBom, color: '#6994FE', text: 'Bom'}, 
+    {value:pesquisa.nNeutro, color: '#5FCDA4', text: 'Neutro'}, 
+    {value:pesquisa.nRuim, color: '#EA7288', text: 'Ruim'},
+    {value:pesquisa.nPessimo, color: '#53D8D8', text: 'Péssimo'} 
+  ]
+
   return (
     <View style={estilos.view}>
 
       <View>
-        <Image source={require('../../assets/images/graphic.png')} />
+        <PieChart
+          data={data}
+          showText
+          textColor="#FFF"
+          showValuesAsLabels
+          strokeWidth={0}
+          radius={220}
+        />
       </View>
-
+      
       <View>
         <View style={estilos.legenda}>
           <View style={estilos.quadrado} backgroundColor="#F1CE7E" />
