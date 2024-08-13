@@ -70,7 +70,7 @@ const Modificar = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log('Erro:' + JSON.stringify(error));
+      setShowError(4)
     });
   };
 
@@ -81,7 +81,7 @@ const Modificar = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log('Erro:' + JSON.stringify(error));
+      setShowError(4)
     });
   };
 
@@ -109,7 +109,7 @@ const Modificar = (props) => {
         const referencia = ref(storage, imagemUrl)
         await deleteObject(referencia);
       }catch(erro){
-        console.log(erro)
+        setShowError(4)
       }
 
       const nomeImagem = `${new Date().toISOString()}_${foto.name}`
@@ -130,18 +130,15 @@ const Modificar = (props) => {
             updateDoc(pesRef, docPesquisa).then(() => {
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
-                console.log("TA ERRO")
-                console.log("Erro no addDoc:", erro);
+                setShowError(4)
               });
-              console.log("TA AQUI")
           });
         } catch (erro) {
-          console.log('Erro do getDownload: ', erro);
+          setShowError(4)
         }
-        console.log('Sucesso!!!');
       })
       .catch((error) => {
-        console.log('Erro de tudo: ', error);
+        setShowError(4)
       }); 
     }else{
       const docPesquisa= {
@@ -153,7 +150,7 @@ const Modificar = (props) => {
           props.navigation.navigate('Drawer');
         })
         .catch((error) => {
-          Alert.alert('Erro', 'Houve um erro ao atualizar a pesquisa.');
+          setShowError(4)
         });
     }
   };
@@ -164,7 +161,7 @@ const Modificar = (props) => {
         props.navigation.navigate('Drawer');
       })
       .catch((error) => {
-        Alert.alert('Erro', 'Houve um erro ao deletar a pesquisa. Contate o Lucio do TI');
+        setShowError(4)
       });
   };
 
@@ -178,7 +175,6 @@ const Modificar = (props) => {
 
   return (
     <View style={estilos.view}>
-
       <View>
         <Text style={estilos.texto}>Nome</Text>
         <TextInput style={estilos.textInput} value={txtNomePesquisa} onChangeText={setNomePesquisa}/>
@@ -193,8 +189,9 @@ const Modificar = (props) => {
 
         <Text style={estilos.texto}>Imagem</Text>
         <TouchableOpacity style={estilos.botaoImagem} onPress={buscaImagem}>
-          <Image source={{ uri: urlFoto }} style={{ height: 110, width: 110}}></Image>
+          <Image source={{ uri: urlFoto }} style={{ height: 130, width: 130}}></Image>
         </TouchableOpacity>
+        {showError==4 ?<Text style={[estilos.erro, { marginTop: '41%', position: 'absolute' }]}>Ocorreu um erro.</Text>:null}
       </View>
 
       <View style={estilos.containerSalvar}>
@@ -230,7 +227,7 @@ const estilos = StyleSheet.create({
   },
 
   containerSalvar: {
-    paddingTop: 20
+    marginTop: 50
   },
 
   textApagar: {
@@ -250,14 +247,14 @@ const estilos = StyleSheet.create({
   },
   erro: {
     fontFamily: 'AveriaLibre-Regular',
-    fontSize: 18,
+    fontSize: 24,
     color: '#FD7979',
     marginTop: 5,
   },
 
   botaoImagem: {
     backgroundColor: '#FFFFFF',
-    height: 110,
+    height: 130,
     width: 350,
     marginTop: 10,
     justifyContent: 'center',

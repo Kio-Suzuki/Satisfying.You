@@ -18,13 +18,13 @@ const RecuperarSenha = (props) => {
     }).catch((erro) => {
       switch(erro){
         case "auth/invalid-email":
-          setShowError("E-mail inválido.")
+          setShowError("E-mail parece ser inválido")
           break;
         case "auth/user-not-found":
-          setShowError("E-mail não cadastrado")
+          setShowError("E-mail parece ser inválido")
           break;
         default:
-          setShowError("Ocorreu um erro, tente novamente mais tarde.")
+          setShowError("E-mail parece ser inválido")
           break;
       }
     })
@@ -32,14 +32,15 @@ const RecuperarSenha = (props) => {
 
   return (
     <View style={estilos.view}>
-      <View>
-        <Text style={estilos.texto}>E-mail</Text>
-        <TextInput style={estilos.textInput} value={txtEmail} onChangeText={setEmail} />
-        {showError ? <Text style={estilos.erro}>{showError}</Text> : null}
-      </View>
-
-      <View style={estilos.cBotao}>
-        <Botao texto="RECUPERAR" funcao={recuperarSenha} />
+      <View style={estilos.container}>
+        <View style={{width: '100%', marginTop: 150}}>
+          <Text style={estilos.texto}>E-mail</Text>
+          <TextInput style={estilos.textInput} value={txtEmail} onChangeText={setEmail} />
+          {showError ? <Text style={estilos.erro}>{showError}</Text> : null}
+        </View>
+        <View style={[estilos.cBotao, {width: '100%'}]}>
+          <Botao texto="RECUPERAR" funcao={recuperarSenha} />
+        </View>
       </View>
 
     </View>
@@ -51,19 +52,19 @@ const estilos = StyleSheet.create({
     backgroundColor: '#372775',
     flex: 1,
     flexDirection: 'column',
-    paddingTop: 150,
-    paddingHorizontal: 203
+    alignItems: 'center'
   },
 
   texto: {
     fontFamily: 'AveriaLibre-Regular',
     fontSize: 28,
-    color: '#FFFFFF'
+    marginBottom: '4px',
+    color: '#FFFFFF',
   },
 
   erro:{
     fontFamily: 'AveriaLibre-Regular',
-    fontSize: 18,
+    fontSize: 24,
     color: '#FD7979',
     marginTop: 5
   },
@@ -73,14 +74,20 @@ const estilos = StyleSheet.create({
     fontFamily: 'AveriaLibre-Regular',
     backgroundColor: '#FFFFFF',
     color: '#3F92C5',
-    paddingHorizontal: 20,
+    width: '100%'
   },
 
 cBotao: {
     position: 'absolute',
-    marginTop: 320,
-    width: 807,
-    marginHorizontal: 203
+    marginTop: 370,
+  },
+  container: {
+    width: '70%',
+    marginTop: 40,
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    alignItems: 'center',
   },
 
 })

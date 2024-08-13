@@ -55,7 +55,7 @@ const NovaPesquisa = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log('Erro:' + JSON.stringify(error));
+      setShowError(4)
     });
   };
 
@@ -66,7 +66,7 @@ const NovaPesquisa = (props) => {
         setFoto(result.assets[0]);
       }
     }).catch((error) => {
-      console.log('Erro:' + JSON.stringify(error));
+      setShowError(4)
     });
   };
 
@@ -115,21 +115,18 @@ const NovaPesquisa = (props) => {
             addDoc(pesquisasCollection, docPesquisa).then(() => {
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
-                console.log("TA ERRO")
-                console.log("Erro no addDoc:", erro);
+                setShowError(4)
               });
-              console.log("TA AQUI")
           } catch (erro) {
-            console.log('Erro talvez do addDoc: ', erro);
+            setShowError(4)
           }
         });
       } catch (erro) {
-        console.log('Erro do getDownload: ', erro);
+        setShowError(4)
       }
-      console.log('Sucesso!!!');
     })
     .catch((error) => {
-      console.log('Erro de tudo: ', error);
+      setShowError(4)
     });  
   }
   
@@ -226,7 +223,7 @@ const estilos = StyleSheet.create({
   },
   erro: {
     fontFamily: 'AveriaLibre-Regular',
-    fontSize: 18,
+    fontSize: 24,
     position: 'absolute',
     color: '#FD7979',
     marginTop: '11%',

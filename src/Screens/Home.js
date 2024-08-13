@@ -77,7 +77,7 @@ const Home = (props) => {
           keyExtractor={item => item.id}
           />
       </View>
-      <Botao style={estilos.cBotao1} funcao={novaPesquisa} texto="Nova Pesquisa" />
+      <Botao style={estilos.cBotao1} funcao={novaPesquisa} texto="NOVA PESQUISA" />
     </View>
   );
 };

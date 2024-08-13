@@ -124,13 +124,14 @@ const estilos = StyleSheet.create({
   },
   erro:{
     fontFamily: 'AveriaLibre-Regular',
-    fontSize: 18,
+    fontSize: 24,
     color: '#FD7979',
     marginTop: 5,
   },
   cBotao1: {
     position: 'absolute',
     marginTop: 380,
+    height: 70
   },
 
   cBotao2: {
