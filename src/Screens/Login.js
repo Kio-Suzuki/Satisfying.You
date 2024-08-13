@@ -27,6 +27,7 @@ const Login = props => {
         setEmail('')
         setSenha('')
         props.navigation.navigate('Drawer');
+        setShowError('')
       }).catch((erro) => {
         switch (erro.code) {
           case "auth/user-not-found":

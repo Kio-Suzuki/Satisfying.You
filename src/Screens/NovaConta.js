@@ -92,7 +92,7 @@ const estilos = StyleSheet.create({
   },
   erro:{
     fontFamily: 'AveriaLibre-Regular',
-    fontSize: 18,
+    fontSize: 24,
     color: '#FD7979',
     marginTop: 5
   },
