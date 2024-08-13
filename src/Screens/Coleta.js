@@ -19,7 +19,6 @@ const Coleta = (props) => {
 
   const finalPesquisa = () => {
     const pesRef = doc(db, 'pesquisas', pesquisa.id);
-
     updateDoc(pesRef, pesquisa)
       .then(() => {
         props.navigation.navigate('AcoesPesquisa', { pesquisa })
@@ -35,7 +34,7 @@ const Coleta = (props) => {
     <View style={estilos.view}>
 
       <View>
-        <TouchableOpacity style={estilos.botaoFechar} onPress={finalPesquisa}>
+        <TouchableOpacity style={estilos.botaoFechar} onPress={() => {finalPesquisa()}}>
           <Icon name='close' size={150} color='transparent'/>
         </TouchableOpacity>
       </View>
