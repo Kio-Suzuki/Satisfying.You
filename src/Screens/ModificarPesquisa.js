@@ -101,12 +101,11 @@ const Modificar = (props) => {
   };
 
   const updatePesquisa = async () => {
-
     const pesRef = doc(db, 'pesquisas', pesquisa.id);
-
+    
     if(urlFoto!=urlFotoAntiga){
       try{
-        const referencia = ref(storage, imagemUrl)
+        const referencia = ref(storage, pesquisa.imagemRef)
         await deleteObject(referencia);
       }catch(erro){
         setShowError(4)
@@ -118,29 +117,29 @@ const Modificar = (props) => {
       const blob = await file.blob();
       
       await uploadBytes(imageRef, blob, { contentType: 'image/jpeg' })
-      .then((uploadRes) => {
-        try {
-          getDownloadURL(uploadRes.ref).then((imageUrl) => {
-            const docPesquisa = {
-              nome: txtNomePesquisa.toUpperCase(),
-              data: txtDataPesquisa,
-              imagem: imageUrl,
-              imagemRef: imageUrl+".jpeg",
-            };
-            updateDoc(pesRef, docPesquisa).then(() => {
+        .then((uploadRes) => {
+          try {
+            getDownloadURL(uploadRes.ref).then((imageUrl) => {
+              const docPesquisa = {
+                nome: txtNomePesquisa.toUpperCase(),
+                data: txtDataPesquisa,
+                imagem: imageUrl,
+                imagemRef: imageUrl+".jpeg",
+              };
+              updateDoc(pesRef, docPesquisa).then(() => {
                 props.navigation.navigate('Drawer');
               }).catch((erro) => {
                 setShowError(4)
               });
-          });
-        } catch (erro) {
+            });
+          } catch (erro) {
+            setShowError(4)
+          }
+        })
+        .catch((error) => {
           setShowError(4)
-        }
-      })
-      .catch((error) => {
-        setShowError(4)
-      }); 
-    }else{
+        })
+    } else {
       const docPesquisa= {
         nome: txtNomePesquisa,
         data: txtDataPesquisa
@@ -155,7 +154,14 @@ const Modificar = (props) => {
     }
   };
 
-  const deletePesquisa = () => {
+  const deletePesquisa = async () => {
+    try{
+      const referencia = ref(storage, pesquisa.imagemRef)
+      await deleteObject(referencia);
+    }catch(erro){
+      setShowError(4)
+    }
+
     deleteDoc(doc(db, 'pesquisas', pesquisa.id))
       .then(() => {
         props.navigation.navigate('Drawer');
