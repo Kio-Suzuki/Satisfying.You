@@ -93,7 +93,7 @@ Special thank you for all people that contributed for this project.
 <table>
   <tr>
    <td align="center">
-      <a href="#">
+      <a href="https://github.com/Kio-Suzuki">
         <img src="https://avatars.githubusercontent.com/u/116661015?v=4" width="100px;" alt="Akio Suzuki Profile Picture"/><br>
         <sub>
           <b>Akio Suzuki</b>
@@ -101,7 +101,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="#">
+      <a href="https://github.com/pedrohcmoda">
         <img src="https://avatars.githubusercontent.com/u/100807308?v=4" width="100px;" alt="Pedro Moda Profile Picture"/><br>
         <sub>
           <b>Pedro Moda</b>
@@ -109,7 +109,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
     <td align="center">
-      <a href="#">
+      <a href="https://github.com/lluciomoraesUTF">
         <img src="https://avatars.githubusercontent.com/u/114965759?v=4" width="100px;" alt="Lúcio Moras Profile Picture"/><br>
         <sub>
           <b>Lúcio Moraes</b>
@@ -117,7 +117,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
    <td align="center">
-      <a href="#">
+      <a href="https://github.com/kauanbrt">
         <img src="https://avatars.githubusercontent.com/u/78911423?v=4" width="100px;" alt="Kauan Borotto Profile Picture"/><br>
         <sub>
           <b>Kauan Borotto</b>
@@ -125,7 +125,7 @@ Special thank you for all people that contributed for this project.
       </a>
     </td>
      <td align="center">
-      <a href="#">
+      <a href="https://github.com/rthll">
         <img src="https://avatars.githubusercontent.com/u/139305731?v=4" width="100px;" alt="Rythielly Garcia Profile Picture"/><br>
         <sub>
           <b>Rythielly Garcia</b>
