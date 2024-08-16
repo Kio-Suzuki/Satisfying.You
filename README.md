@@ -1,79 +1,151 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+[React Native]: https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB
+[JavaScript]: https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E
+[CSS3]: https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white
+[Android]: https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
+[Android Studio]: https://img.shields.io/badge/android%20studio-346ac1?style=for-the-badge&logo=android%20studio&logoColor=white
+[Firebase]: https://img.shields.io/badge/firebase-a08021?style=for-the-badge&logo=firebase&logoColor=ffcd34
 
-# Getting Started
 
->**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+[JAVASCRIPT__BADGE]: https://img.shields.io/badge/Javascript-000?style=for-the-badge&logo=javascript
 
-## Step 1: Start the Metro Server
+[PROJECT__BADGE]: https://img.shields.io/badge/📱Visit_this_project-000?style=for-the-badge&logo=project
+[PROJECT__URL]: https://github.com/Kio-Suzuki/Satisfying.You
 
-First, you will need to start **Metro**, the JavaScript _bundler_ that ships _with_ React Native.
+<h1 align="center" style="font-weight: bold;">Satisfying.You 📱</h1>
 
-To start Metro, run the following command from the _root_ of your React Native project:
+![react][React Native]
+![javascript][JavaScript]
+![css3][CSS3]
+![Firebase][Firebase]
+![android][Android]
+![AndroidStudio][Android Studio]
+
+<p align="center">
+ <a href="#about">About</a> • 
+ <a href="#started">Getting Started</a> • 
+  <a href="#started">App Routes</a> • 
+  <a href="#colab">Collaborators</a> •
+ <a href="#contribute">Contribute</a>
+</p>
+
+
+<p align="center">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/home.png?raw=true" width="500px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/criar.png?raw=true" width="500px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/coleta.png?raw=true" width="500px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/relatorio.png?raw=true" width="500px">
+</p>
+
+<h2 id="started">📌 About</h2>
+
+Satisfying.You é um aplicativo móvel desenvolvido para dispositivos Android, projetado para facilitar o processo de coleta e análise de pesquisas de satisfação. Com o Satisfying.You, você pode criar e cadastrar pesquisas de forma simples e intuitiva, permitindo que seus usuários forneçam feedback valioso diretamente do seu smartphone. Além disso, o aplicativo oferece uma visualização clara e organizada dos resultados coletados, ajudando a identificar pontos fortes e áreas de melhoria.
+
+<h3>Funcionalidades principais:</h3>
+
+- Cadastro de Pesquisas: Crie e gerencie suas pesquisas de satisfação com facilidade.
+- Coleta de Respostas: Permita que seus usuários respondam às pesquisas diretamente no aplicativo.
+- Visualização de Resultados: Acompanhe os resultados das suas pesquisas em tempo real com gráficos e estatísticas detalhadas.
+
+[![project][PROJECT__BADGE]][PROJECT__URL]
+
+<h2 id="started">🚀 Getting started</h2>
+
+Here you describe how to run your project locally
+
+<h3>Prerequisites</h3>
+
+Here you list all prerequisites necessary for running your project. For example:
+
+- [Android Studio](https://developer.android.com/)
+
+<h3>Cloning</h3>
+
+How to clone your project
 
 ```bash
-# using npm
-npm start
-
-# OR using Yarn
-yarn start
+git clone https://github.com/Kio-Suzuki/Satisfying.You.git
 ```
 
-## Step 2: Start your Application
+<h3>Starting</h3>
 
-Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _root_ of your React Native project. Run the following command to start your _Android_ or _iOS_ app:
-
-### For Android
+How to start your project
 
 ```bash
-# using npm
-npm run android
-
-# OR using Yarn
-yarn android
+emulator -avd {device_name} -no-snapshot
+npx react-native start
+npx react-native run -{device_name}
 ```
 
-### For iOS
+<h2 id="routes">📍 Application Routes</h2>
 
-```bash
-# using npm
-npm run ios
+Here you can list the main routes of your API, and what are their expected request bodies.
+​
+| route               | description                                          
+|----------------------|-----------------------------------------------------
+| <kbd>/authenticate</kbd>     | page that list all user info
+| <kbd>/login</kbd>     | page to login
+| <kbd>/dashboard</kbd>     | page that contains all user shopping and spences info
 
-# OR using Yarn
-yarn ios
-```
+<h2 id="colab">🤝 Collaborators</h2>
 
-If everything is set up _correctly_, you should see your new app running in your _Android Emulator_ or _iOS Simulator_ shortly provided you have set up your emulator/simulator correctly.
+Special thank you for all people that contributed for this project.
 
-This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
+<table>
+  <tr>
+   <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/116661015?v=4" width="100px;" alt="Akio Suzuki Profile Picture"/><br>
+        <sub>
+          <b>Akio Suzuki</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/100807308?v=4" width="100px;" alt="Pedro Moda Profile Picture"/><br>
+        <sub>
+          <b>Pedro Moda</b>
+        </sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/114965759?v=4" width="100px;" alt="Lúcio Moras Profile Picture"/><br>
+        <sub>
+          <b>Lúcio Moraes</b>
+        </sub>
+      </a>
+    </td>
+   <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/78911423?v=4" width="100px;" alt="Kauan Borotto Profile Picture"/><br>
+        <sub>
+          <b>Kauan Borotto</b>
+        </sub>
+      </a>
+    </td>
+     <td align="center">
+      <a href="#">
+        <img src="https://avatars.githubusercontent.com/u/139305731?v=4" width="100px;" alt="Rythielly Garcia Profile Picture"/><br>
+        <sub>
+          <b>Rythielly Garcia</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
 
-## Step 3: Modifying your App
+<h2 id="contribute">📫 Contribute</h2>
 
-Now that you have successfully run the app, let's modify it.
+Here you will explain how other developers can contribute to your project. For example, explaining how can create their branches, which patterns to follow and how to open an pull request
 
-1. Open `App.tsx` in your text editor of choice and edit some lines.
-2. For **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Developer Menu** (<kbd>Ctrl</kbd> + <kbd>M</kbd> (on Window and Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (on macOS)) to see your changes!
+1. `git clone https://github.com/Kio-Suzuki/Satisfying.You`
+2. `git checkout -b feature/NAME`
+3. Follow commit patterns
+4. Open a Pull Request explaining the problem solved or feature made, if exists, append screenshot of visual modifications and wait for the review!
 
-   For **iOS**: Hit <kbd>Cmd ⌘</kbd> + <kbd>R</kbd> in your iOS Simulator to reload the app and see your changes!
+<h3>Documentations that might help</h3>
 
-## Congratulations! :tada:
+[📝 How to create a Pull Request](https://www.atlassian.com/br/git/tutorials/making-a-pull-request)
 
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [Introduction to React Native](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you can't get this to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
+[💾 Commit pattern](https://gist.github.com/joshbuchea/6f47e86d2510bce28f8e7f42ae84c716)
