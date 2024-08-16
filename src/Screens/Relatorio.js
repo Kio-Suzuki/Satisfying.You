@@ -6,9 +6,9 @@ import LegendaRelatorio from '../components/LegendaRelatorio';
 const Relatorio = () => {
 
   const { pesquisa } = usePesquisa();
-  var data = false;
+  let data = false;
 
-  if(pesquisa.nExcelente || 0 && pesquisa.nBom != 0 || pesquisa.nNeutro != 0 || pesquisa.nRuim != 0 || pesquisa.nPessimo != 0){
+  if(pesquisa.nExcelente != 0 || pesquisa.nBom != 0 || pesquisa.nNeutro != 0 || pesquisa.nRuim != 0 || pesquisa.nPessimo != 0){
     data=[
       {value:pesquisa.nExcelente, color: '#F1CE7E', text: 'Excelente'}, 
       {value:pesquisa.nBom, color: '#6994FE', text: 'Bom'}, 
@@ -25,7 +25,6 @@ const Relatorio = () => {
           data={data}
           showText
           textColor="#FFF"
-          showValuesAsLabels
           strokeWidth={0}
           radius={220}
         />
