@@ -76,16 +76,6 @@ npx react-native start
 npx react-native run -{device_name}
 ```
 
-<h2 id="routes">📍 Application Routes</h2>
-
-Here you can list the main routes of your API, and what are their expected request bodies.
-​
-| route               | description                                          
-|----------------------|-----------------------------------------------------
-| <kbd>/authenticate</kbd>     | page that list all user info
-| <kbd>/login</kbd>     | page to login
-| <kbd>/dashboard</kbd>     | page that contains all user shopping and spences info
-
 <h2 id="colab">🤝 Collaborators</h2>
 
 Special thank you for all people that contributed for this project.
