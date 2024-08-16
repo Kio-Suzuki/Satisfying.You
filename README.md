@@ -30,10 +30,10 @@
 
 
 <p align="center">
-    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/home.png?raw=true" width="500px">
-    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/criar.png?raw=true" width="500px">
-    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/coleta.png?raw=true" width="500px">
-    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/relatorio.png?raw=true" width="500px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/home.png?raw=true" width="450px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/criar.png?raw=true" width="450px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/coleta.png?raw=true" width="450px">
+    <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/relatorio.png?raw=true" width="450px">
 </p>
 
 <h2 id="started">📌 About</h2>
