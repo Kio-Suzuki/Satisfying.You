@@ -35,7 +35,7 @@
     <img src="https://github.com/Kio-Suzuki/Satisfying.You/blob/main/assets/images/relatorio.png?raw=true" width="450px">
 </p>
 
-<h2 id="started">📌 About</h2>
+<h2 id="about">📌 About</h2>
 
 Satisfying.You é um aplicativo móvel desenvolvido para dispositivos Android, projetado para facilitar o processo de coleta e análise de pesquisas de satisfação. Com o Satisfying.You, você pode criar e cadastrar pesquisas de forma simples e intuitiva, permitindo que seus usuários forneçam feedback valioso diretamente do seu smartphone. Além disso, o aplicativo oferece uma visualização clara e organizada dos resultados coletados, ajudando a identificar pontos fortes e áreas de melhoria.
 
@@ -125,8 +125,6 @@ Special thank you for all people that contributed for this project.
 </table>
 
 <h2 id="contribute">📫 Contribute</h2>
-
-Here you will explain how other developers can contribute to your project. For example, explaining how can create their branches, which patterns to follow and how to open an pull request
 
 1. `git clone https://github.com/Kio-Suzuki/Satisfying.You`
 2. `git checkout -b feature/NAME`
